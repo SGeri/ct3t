@@ -7,7 +7,6 @@
   "workspaces": [
     "apps/*",
     "packages/api",
-    "packages/auth",
     "packages/db",
     "packages/config/eslint",
     "packages/config/tailwind"

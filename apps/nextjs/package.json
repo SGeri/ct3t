@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@packages/api": "*",
-    "@packages/auth": "*",
     "@packages/db": "*",
     "@packages/tailwind-config": "*",
     "@tanstack/react-query": "^4.24.10",
@@ -22,7 +21,6 @@
     "@trpc/react-query": "^10.14.0",
     "@trpc/server": "^10.14.0",
     "next": "^13.2.3",
-    "next-auth": "^4.20.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "superjson": "1.9.1",
