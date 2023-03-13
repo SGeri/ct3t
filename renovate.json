@@ -3,7 +3,7 @@
   "extends": ["config:base"],
   "packageRules": [
     {
-      "matchPackagePatterns": ["^@acme/", "eslint-config-acme"],
+      "matchPackagePatterns": ["^@packages/", "eslint-config-acme"],
       "enabled": false
     }
   ],

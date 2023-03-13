@@ -1,5 +1,5 @@
 {
-  "name": "@acme/expo",
+  "name": "@apps/expo",
   "version": "0.1.0",
   "main": "index.tsx",
   "scripts": {
@@ -32,8 +32,8 @@
     "superjson": "1.9.1"
   },
   "devDependencies": {
-    "@acme/api": "*",
-    "@acme/tailwind-config": "*",
+    "@packages/api": "*",
+    "@packages/tailwind-config": "*",
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",

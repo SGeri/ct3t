@@ -1,5 +1,5 @@
 {
-  "name": "@acme/api",
+  "name": "@packages/api",
   "version": "0.1.0",
   "main": "./index.ts",
   "types": "./index.ts",
@@ -11,8 +11,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@acme/auth": "*",
-    "@acme/db": "*",
+    "@packages/auth": "*",
+    "@packages/db": "*",
     "@trpc/client": "^10.14.0",
     "@trpc/server": "^10.14.0",
     "superjson": "1.9.1",
