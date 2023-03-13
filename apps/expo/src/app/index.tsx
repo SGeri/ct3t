@@ -1,12 +1,14 @@
 import React from "react";
 import { Button, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 //import { api, type RouterOutputs } from "~/utils/api";
 
 const App = () => {
+  const router = useRouter();
+
   return (
     <SafeAreaView className="bg-[#1F104A]">
       <Stack.Screen options={{ title: "Home Page" }} />
@@ -30,7 +32,7 @@ const App = () => {
           renderItem={({ item }) => (
             <View className="flex flex-row rounded-lg bg-white/10 p-4">
               <View className="flex-grow">
-                <TouchableOpacity onPress={() => alert("Pressed!")}>
+                <TouchableOpacity onPress={() => router.push("/post/" + item)}>
                   <Text className="text-xl font-semibold text-pink-400">
                     {item}
                   </Text>
