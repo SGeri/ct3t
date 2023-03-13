@@ -7,8 +7,7 @@
     "dev": "expo start --android",
     "dev:android": "expo start --android",
     "dev:ios": "expo start --ios",
-    "lint": "eslint .",
-    "lint:fix": "lint --fix"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@shopify/flash-list": "1.4.0",

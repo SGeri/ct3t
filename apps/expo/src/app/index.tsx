@@ -32,7 +32,7 @@ const App = () => {
           renderItem={({ item }) => (
             <View className="flex flex-row rounded-lg bg-white/10 p-4">
               <View className="flex-grow">
-                <TouchableOpacity onPress={() => router.push("/post/" + item)}>
+                <TouchableOpacity onPress={() => router.push(`/post/${item}`)}>
                   <Text className="text-xl font-semibold text-pink-400">
                     {item}
                   </Text>
