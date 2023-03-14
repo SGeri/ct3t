@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.11.7",
+    "@clerk/themes": "^1.4.6",
     "@packages/api": "*",
     "@packages/db": "*",
     "@packages/tailwind-config": "*",
