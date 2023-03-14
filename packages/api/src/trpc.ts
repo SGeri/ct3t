@@ -1,25 +1,10 @@
-import { initTRPC } from "@trpc/server";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { TRPCError, initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { prisma } from "@packages/db";
+import { Context } from "./context";
 
-type CreateContextOptions = Record<string, never>;
-
-const createInnerTRPCContext = (_opts: CreateContextOptions) => {
-  return {
-    prisma,
-  };
-};
-
-export const createTRPCContext = async (_opts: CreateNextContextOptions) => {
-  return createInnerTRPCContext({});
-};
-
-type CreateTRPCContext = typeof createTRPCContext;
-
-const t = initTRPC.context<CreateTRPCContext>().create({
+const t = initTRPC.context<Context>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
@@ -33,16 +18,18 @@ const t = initTRPC.context<CreateTRPCContext>().create({
   },
 });
 
-/**
- * Root router & sub-routers
- *
- * @see https://trpc.io/docs/router
- */
-export const createTRPCRouter = t.router;
+const isAuthed = t.middleware(({ next, ctx }) => {
+  if (!ctx.auth.userId) {
+    throw new TRPCError({ code: "UNAUTHORIZED", message: "Not authenticated" });
+  }
 
-/**
- * Public  procedure
- *
- * Use this to create new procedures and public queries/mutations.
- */
+  return next({
+    ctx: {
+      auth: ctx.auth,
+    },
+  });
+});
+
+export const createRouter = t.router;
 export const publicProcedure = t.procedure;
+export const protectedProcedure = t.procedure.use(isAuthed);

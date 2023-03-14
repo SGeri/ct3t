@@ -10,6 +10,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.11.7",
     "@packages/api": "*",
     "@packages/db": "*",
     "@packages/tailwind-config": "*",
