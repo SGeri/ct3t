@@ -9,7 +9,7 @@ datasource db {
 
 model User {
     id       String   @id @default(cuid())
+    clerk_id String   @unique
     name     String?  
     email    String   @unique
-    password String   
 }

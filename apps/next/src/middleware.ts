@@ -10,7 +10,7 @@ const isPublic = (path: string) => {
 };
 
 export default withClerkMiddleware((request: NextRequest) => {
-  if (isPublic(request.nextUrl.pathname)) {
+  /*if (isPublic(request.nextUrl.pathname)) {
     return NextResponse.next();
   }
 
@@ -21,7 +21,7 @@ export default withClerkMiddleware((request: NextRequest) => {
     signInUrl.searchParams.set("redirect_url", request.url);
 
     return NextResponse.redirect(signInUrl);
-  }
+  }*/
 
   return NextResponse.next();
 });
