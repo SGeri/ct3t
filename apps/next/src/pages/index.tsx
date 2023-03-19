@@ -1,13 +1,9 @@
 import { type NextPage } from "next";
 import Link from "next/link";
 import { SignOutButton, useAuth } from "@clerk/nextjs";
-
-import { Role, User } from "@packages/db";
-
 import { api } from "~/utils/api";
-import requireAuth from "~/utils/requireAuth";
 
-const Home: NextPage<{ user: User }> = ({ user }) => {
+const Home: NextPage = () => {
   const { isSignedIn, userId } = useAuth();
   const test = api.example.test.useQuery();
 

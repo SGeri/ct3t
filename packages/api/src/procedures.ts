@@ -1,7 +1,5 @@
 import { TRPCError } from "@trpc/server";
-
 import { Role, prisma } from "@packages/db";
-
 import { middleware, publicProcedure } from "./trpc";
 
 export const createProtectedProcedure = (permissionLevel: Role) => {

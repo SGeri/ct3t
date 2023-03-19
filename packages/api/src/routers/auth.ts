@@ -1,5 +1,4 @@
 import { TRPCError } from "@trpc/server";
-
 import { createRouter, publicProcedure } from "../trpc";
 
 export const authRouter = createRouter({

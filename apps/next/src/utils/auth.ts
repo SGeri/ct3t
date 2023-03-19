@@ -1,7 +1,8 @@
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import { buildClerkProps, getAuth } from "@clerk/nextjs/server";
+import { Role, User, prisma } from "@packages/db";
 
-import { Role, prisma } from "@packages/db";
+export type ProtectedPage = NextPage<{ user: User }>;
 
 /**
  * @param {Role} requiredAuthRole the required auth role for the user to be authorized for the page
@@ -9,10 +10,10 @@ import { Role, prisma } from "@packages/db";
  * requiredAuthRole can be a single Role or an array of Roles
  * @example const getServerSideProps = requireAuth(Role.ADMIN);
  * @example const getServerSideProps = requireAuth([Role.EMPLOYEE, Role.ADMIN]);
- * @an optional callback can be passed
+ * @optional callback can be passed
  * @example const getServerSideProps = requireAuth(Role.ADMIN, async (ctx) => { ... });
  */
-const requireAuth = (
+export const requireAuth = (
   requiredAuthRole: Role | Role[], // todo single Role or array of Roles
   getServerSideProps?: GetServerSideProps,
 ) => {
@@ -47,12 +48,14 @@ const requireAuth = (
   };
 };
 
-const redirect = (ctx: GetServerSidePropsContext) => ({
+const redirect = (ctx: GetServerSidePropsContext, loggedIn?: boolean) => ({
   props: buildClerkProps(ctx.req),
   redirect: {
     permanent: false,
-    destination: "/sign-in?redirectUrl=" + encodeURIComponent(ctx.resolvedUrl), // todo fix this because it can redirect to external sites - security issue
+    // todo fix this because it can redirect to external sites - security issue
+    // todo fix "/" because it might not be the main page
+    destination: loggedIn
+      ? "/"
+      : "/sign-in?redirectUrl=" + encodeURIComponent(ctx.resolvedUrl),
   },
 });
-
-export default requireAuth;

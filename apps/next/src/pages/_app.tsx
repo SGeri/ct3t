@@ -3,7 +3,6 @@ import type { AppType } from "next/app";
 import Head from "next/head";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
-
 import { api } from "~/utils/api";
 
 const MyApp: AppType = ({ Component, pageProps }) => (
