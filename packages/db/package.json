@@ -9,7 +9,8 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
     "dev": "prisma studio --port 5556",
-    "postinstall": "npm run db:generate"
+    "postinstall": "npm run db:generate",
+    "studio": "npm run dev"
   },
   "dependencies": {
     "@prisma/client": "^4.11.0"

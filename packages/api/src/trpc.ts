@@ -2,7 +2,10 @@ import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
+import { Role } from "@packages/db";
+
 import { Context } from "./context";
+import { createProtectedProcedure } from "./procedures";
 
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
@@ -21,4 +24,8 @@ const t = initTRPC.context<Context>().create({
 
 export const createRouter = t.router;
 export const publicProcedure = t.procedure;
-export const protectedProcedure = t.procedure; // todo make template
+export const middleware = t.middleware;
+
+export const employeeProcedure = createProtectedProcedure(Role.EMPLOYEE);
+export const managerProcedure = createProtectedProcedure(Role.MANAGER);
+export const adminProcedure = createProtectedProcedure(Role.ADMIN);

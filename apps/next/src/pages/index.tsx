@@ -1,11 +1,14 @@
 import { type NextPage } from "next";
 import Link from "next/link";
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { SignOutButton, useAuth } from "@clerk/nextjs";
+
+import { Role, User } from "@packages/db";
 
 import { api } from "~/utils/api";
+import requireAuth from "~/utils/requireAuth";
 
-const Home: NextPage = () => {
-  const { isSignedIn, user } = useUser();
+const Home: NextPage<{ user: User }> = ({ user }) => {
+  const { isSignedIn, userId } = useAuth();
   const test = api.example.test.useQuery();
 
   return (
@@ -26,7 +29,7 @@ const Home: NextPage = () => {
         <p className="text-base text-white">
           {isSignedIn ? (
             <>
-              <span className="font-bold">User ID:</span> {user.id}
+              <span className="font-bold">User ID:</span> {userId}
               <SignOutButton>
                 <span className="rounded-md border-2 border-red-200 p-4 text-white">
                   Sign Out
