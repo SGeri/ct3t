@@ -3,10 +3,10 @@ import { api } from "~/utils/api";
 import { requireAuth, type ProtectedPage } from "~/utils/auth";
 
 const ProtectedPage: ProtectedPage = ({ user }) => {
-  const { mutateAsync: createUser } = api.example.checkNumber.useMutation();
+  const { mutateAsync: checkNumber } = api.example.checkNumber.useMutation();
 
   const handleCreate = async () => {
-    const { message } = await createUser({
+    const { message } = await checkNumber({
       number: 2,
     });
 
@@ -23,6 +23,6 @@ const ProtectedPage: ProtectedPage = ({ user }) => {
   );
 };
 
-export const getServerSideProps = requireAuth(Role.EMPLOYEE);
+export const getServerSideProps = requireAuth(Role.ADMIN);
 
 export default ProtectedPage;

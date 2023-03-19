@@ -4,7 +4,7 @@ import { AppRouter } from "@packages/api";
 
 export const handleAPIError = (err: unknown) => {
   if (err instanceof TRPCClientError<AppRouter>) {
-    if (err.data.code == "UNAUTHORIZED" || err.data.code == "FORBIDDEN") {
+    if (err.data?.code == "UNAUTHORIZED" || err.data?.code == "FORBIDDEN") {
       return notifications.show({
         title: "Permission Denied",
         message:
