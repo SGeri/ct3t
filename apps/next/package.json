@@ -12,6 +12,12 @@
   "dependencies": {
     "@clerk/nextjs": "^4.11.7",
     "@clerk/themes": "^1.4.6",
+    "@emotion/react": "^11.10.6",
+    "@emotion/server": "^11.10.0",
+    "@mantine/core": "^6.0.2",
+    "@mantine/hooks": "^6.0.2",
+    "@mantine/next": "^6.0.2",
+    "@mantine/notifications": "^6.0.2",
     "@packages/api": "*",
     "@packages/db": "*",
     "@packages/tailwind-config": "*",

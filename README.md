@@ -12,7 +12,9 @@ There were a few things missing from these already existing repos that I wanted 
 - [x] Added [TRPC](https://trpc.io) auth handlers
 - [x] Added Custom Authentication Handler system by extending GetServerSideProps
 - [x] Added support for routes protected by roles
+- [x] Added [Mantine](https://mantine.dev) for global error handling
 - [ ] Added [Clerk](https://clerk.dev) to the Expo app
+- [ ] Created detailed description on authentication & error handling usage
 
 ## Quick Start
 

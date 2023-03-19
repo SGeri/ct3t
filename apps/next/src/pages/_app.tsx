@@ -3,6 +3,8 @@ import type { AppType } from "next/app";
 import Head from "next/head";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { api } from "~/utils/api";
 
 const MyApp: AppType = ({ Component, pageProps }) => (
@@ -14,7 +16,15 @@ const MyApp: AppType = ({ Component, pageProps }) => (
     </Head>
 
     <ClerkProvider {...pageProps} appearance={{ baseTheme: dark }}>
-      <Component {...pageProps} />
+      <MantineProvider
+        withNormalizeCSS
+        withCSSVariables
+        theme={{ colorScheme: "dark" }}
+      >
+        <Notifications limit={5} />
+
+        <Component {...pageProps} />
+      </MantineProvider>
     </ClerkProvider>
   </>
 );

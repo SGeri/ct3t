@@ -1,12 +1,29 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createRouter, publicProcedure } from "../trpc";
+import { adminProcedure, createRouter, publicProcedure } from "../trpc";
 
 export const exampleRouter = createRouter({
   test: publicProcedure.query(({ ctx }) => {
-    //console.log(ctx.auth, ctx.auth.userId, ctx.auth.user);
-
     return {
       message: "Hello World!",
     };
   }),
+
+  checkNumber: adminProcedure
+    .input(
+      z.object({
+        number: z.number(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      if (input.number !== 1)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Number must be 1",
+        });
+
+      return {
+        message: "Hello World!",
+      };
+    }),
 });

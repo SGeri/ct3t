@@ -2,6 +2,7 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import { createTRPCNext } from "@trpc/next";
 import superjson from "superjson";
 import type { AppRouter } from "@packages/api";
+import { handleAPIError } from "./error";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return "";
@@ -30,6 +31,10 @@ export const api = createTRPCNext<AppRouter>({
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
+            onError: handleAPIError,
+          },
+          mutations: {
+            onError: handleAPIError,
           },
         },
       },
