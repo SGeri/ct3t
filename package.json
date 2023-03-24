@@ -21,7 +21,7 @@
     "db:push": "dotenv -e .env -- turbo db:push db:generate",
     "dev": "dotenv -e .env -- turbo dev --parallel",
     "dev:web": "dotenv -e .env -- npm run dev --workspace apps/next",
-    "dev:mobile": "dotenv -e .env -- npm run dev --workspace apps/mobile",
+    "dev:mobile": "dotenv -e .env -- npm run dev --workspace apps/expo",
     "studio": "dotenv -e .env -- turbo studio",
     "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
     "lint": "turbo lint && manypkg check",

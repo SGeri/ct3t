@@ -20,6 +20,41 @@ There were a few things missing from these already existing repos that I wanted 
 
 To get it running, follow the steps below:
 
+### Development Platform Determination
+
+- The `dev` command in the Expo app uses a simple bash command to determine the OS, so that the iOS / Android emulators will be correctly started.
+
+- The environment variable $OSTYPE and the syntax used in the command is only available on Unix platforms. On Windows, we have to use WSL or Git Bash.
+
+- Using Git Bash is always recommended in VS Code, because it is the only way to use the integrated terminal with the same syntax as the bash terminal.
+
+- Since npm uses the default powershell by default, we have to set the script shell to Git Bash. Use the following command to achieve this:
+
+```bash
+npm config set script-shell "C:\\Program Files\\git\\bin\\bash.exe"
+```
+
+- Replace the path with the path to your Git Bash installation's bin folder.
+
+- Don't forget to run this command in the root of the project, otherwise the following error will occur:
+
+```
+npm ERR! code ENOWORKSPACES
+npm ERR! This command does not support workspaces.
+```
+
+### Setting up emulator
+
+If you've never started your Android emulator before, try manually starting it first. This will ensure that the emulator is ready to be started by the Expo app.
+
+Sometimes this error will pop up:
+
+```
+CommandError: Input is required, but 'npx expo' is in non-interactive mode.
+```
+
+You can easily solve this by running the `expo start` command directly from the Expo app's root directory. This error comes up when the Expo Go app is outdated or other interaction is needed but the terminal is in non-interactive mode since you are using Turborepo. You will be prompted but to continue, but after running the command manully, you can continue development with Turbo.
+
 ### Setup dependencies
 
 ```

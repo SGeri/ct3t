@@ -3,8 +3,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { ClerkProvider } from "@clerk/clerk-expo";
-import tokenCache from "~/utils/tokenCache";
 import { TRPCProvider } from "../utils/api";
+import tokenCache from "../utils/tokenCache";
 
 // make .env available in the expo application
 const publishableKey = "pk_test_Z2FtZS1vd2wtODUuY2xlcmsuYWNjb3VudHMuZGV2JA";
