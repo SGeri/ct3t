@@ -1,9 +1,8 @@
 import { notifications } from "@mantine/notifications";
 import { TRPCClientError } from "@trpc/client";
-import { AppRouter } from "@packages/api";
 
 export const handleAPIError = (err: unknown) => {
-  if (err instanceof TRPCClientError<AppRouter>) {
+  if (err instanceof TRPCClientError) {
     if (err.data?.code == "UNAUTHORIZED" || err.data?.code == "FORBIDDEN") {
       return notifications.show({
         title: "Permission Denied",

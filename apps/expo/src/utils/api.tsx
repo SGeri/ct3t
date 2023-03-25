@@ -1,11 +1,16 @@
 import React, { ReactNode, useState } from "react";
 import Constants from "expo-constants";
 import { useAuth } from "@clerk/clerk-expo";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  DefaultOptions,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import { createTRPCReact } from "@trpc/react-query";
 import superjson from "superjson";
 import { type AppRouter } from "@packages/api";
+import { handleAPIError } from "./error";
 
 export const api = createTRPCReact<AppRouter>();
 export { type RouterInputs, type RouterOutputs } from "@packages/api";
@@ -32,10 +37,22 @@ const getBaseUrl = () => {
   return `http://${localhost}:3000`;
 };
 
+const queryClientConfig: DefaultOptions = {
+  queries: {
+    onError: handleAPIError,
+  },
+  mutations: {
+    onError: handleAPIError,
+  },
+};
+
 export const TRPCProvider = ({ children }: { children: ReactNode }) => {
   const { getToken } = useAuth();
 
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () => new QueryClient({ defaultOptions: queryClientConfig }),
+  );
+
   const [trpcClient] = useState(() =>
     api.createClient({
       transformer: superjson,
