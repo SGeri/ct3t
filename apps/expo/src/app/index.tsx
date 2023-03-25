@@ -2,20 +2,21 @@ import React from "react";
 import { Button, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
-import { useAuth, useUser } from "@clerk/clerk-expo";
+import { useAuth } from "@clerk/clerk-expo";
 import { api } from "../utils/api";
 
 const App = () => {
   const router = useRouter();
-  const { user: authUser } = useUser();
   const { signOut } = useAuth();
+  const { data, refetch } = api.auth.getUser.useQuery();
 
-  const userId = authUser?.id;
+  const user = data?.user;
 
-  //const { data: user } = api.auth.getUser.useQuery();
-  const { data: session } = api.auth.getSession.useQuery();
-
-  console.log("userId, session", userId, session);
+  // query does not refetch when coming back
+  const handleSignOut = () => {
+    signOut();
+    refetch();
+  };
 
   return (
     <SafeAreaView className="bg-[#1F104A]">
@@ -38,15 +39,16 @@ const App = () => {
             title="Sign In"
             color={"#f472b6"}
           />
+          <Button onPress={handleSignOut} title="Sign Out" color={"#f472b6"} />
           <Button
-            onPress={() => signOut()}
-            title="Sign Out"
+            onPress={() => router.push("prot")}
+            title="Protected"
             color={"#f472b6"}
           />
         </View>
 
         <Text className="mt-4 text-center text-lg text-white">
-          Current User: {userId}
+          {user ? "Current User: " + user.name : "No user signed in"}
         </Text>
       </View>
     </SafeAreaView>

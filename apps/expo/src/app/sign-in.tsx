@@ -39,12 +39,12 @@ const SignIn = () => {
     }
 
     try {
-      const completeSignIn = await signIn.create({
+      const { createdSessionId } = await signIn.create({
         identifier: email,
         password: password,
       });
 
-      await setSession(completeSignIn.createdSessionId);
+      await setSession(createdSessionId);
 
       router.replace("/");
     } catch (err: any) {
