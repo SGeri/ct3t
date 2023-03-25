@@ -31,6 +31,14 @@ const defineConfig = (): ExpoConfig => ({
     eas: {
       projectId: "your-project-id",
     },
+
+    // Environment variables for the app
+    // Usage: Constants.expoConfig.extra.env.<ENVIRONMENT_VARIABLE>
+    env: {
+      clerkPublishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    },
+
+    production: {},
   },
   plugins: ["./expo-plugins/with-modify-gradle.js"],
 });

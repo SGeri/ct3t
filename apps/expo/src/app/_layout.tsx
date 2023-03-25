@@ -1,18 +1,18 @@
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import Constants from "expo-constants";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import { TRPCProvider } from "../utils/api";
 import tokenCache from "../utils/tokenCache";
 
-// make .env available in the expo application
-const publishableKey = "pk_test_Z2FtZS1vd2wtODUuY2xlcmsuYWNjb3VudHMuZGV2JA";
+const clerkPublishableKey =
+  Constants.expoConfig?.extra?.env?.clerkPublishableKey;
 
-// Equivalent to the Root Layout (_app.tsx) in Next.js
 const RootLayout = () => {
   return (
-    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+    <ClerkProvider publishableKey={clerkPublishableKey} tokenCache={tokenCache}>
       <TRPCProvider>
         <SafeAreaProvider>
           <Stack
