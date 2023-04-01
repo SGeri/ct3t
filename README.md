@@ -73,13 +73,32 @@ npm run db:push
 npm run dev
 ```
 
-## Docker
+## Docker Deployment (Web Only)
+
+### Image + Container
+
+First, we create a Docker image from the Dockerfile:
 
 ```bash
 docker build -t my-ct3t-image .
-
-docker run -p 3000:3000 --name my-ct3t-container my-ct3t-image
 ```
+
+Then, we run the image with port 3000 exposed:
+
+```bash
+docker run -it -p 3000:3000 --name my-ct3t-container my-ct3t-image
+```
+
+- -it: Allocate a pseudo-TTY terminal and keep STDIN open
+- -p: Publish a Nextjs' port to the host
+- --name: Name the container
+- my-ct3t-image: The name of the image (previously created)
+
+You can always add the -d flag to run the container in the background. (Detached Mode)
+
+### With docker-compose
+
+**Work in Progress...**
 
 ## See more
 

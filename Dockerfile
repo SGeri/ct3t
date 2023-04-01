@@ -7,11 +7,14 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
+# Copy source code to the working directory
+COPY . .
+
 # Install the npm packages, including the package manager
 RUN npm ci
 
-# Copy the rest of the application to the working directory
-COPY . .
+# Disable telemetry
+ENV NEXT_TELEMETRY_DISABLED 1
 
 # Build the application
 RUN npm run build
