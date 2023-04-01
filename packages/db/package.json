@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate",
+    "db:push": "prisma db push --skip-generate --accept-data-loss",
     "dev": "prisma studio --port 5556",
     "postinstall": "npm run db:generate",
     "studio": "npm run dev"
@@ -16,6 +16,7 @@
     "@prisma/client": "^4.11.0"
   },
   "devDependencies": {
+    "prettier-plugin-prisma": "^4.12.0",
     "prisma": "^4.11.0",
     "typescript": "^4.9.5"
   }
