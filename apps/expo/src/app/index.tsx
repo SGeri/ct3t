@@ -48,7 +48,7 @@ const App = () => {
         </View>
 
         <Text className="mt-4 text-center text-lg text-white">
-          {user ? "Current User: " + user.name : "No user signed in"}
+          {user ? "Current User: " + user.id : "No user signed in"}
         </Text>
       </View>
     </SafeAreaView>

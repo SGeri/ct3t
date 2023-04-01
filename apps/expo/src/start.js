@@ -3,7 +3,7 @@
 
 // TODO: Currently this is not working, error code: "Error: spawn npx ENOENT"
 
-const childProcess = require("child_process");
+const spawn = require("cross-spawn");
 const os = require("os");
 
 const platform = os.platform();
@@ -13,7 +13,7 @@ const args = ["expo start"];
 
 args.push(platform === "darwin" ? "--ios" : "--android");
 
-const expoProcess = childProcess.spawn(COMMAND, args, { stdio: "inherit" });
+const expoProcess = spawn(COMMAND, args, { stdio: "inherit" });
 
 expoProcess.on("error", (err) => {
   const cmd = COMMAND + " " + args.join(" ");
