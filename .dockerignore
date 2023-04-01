@@ -1,0 +1,27 @@
+# Ignore Git files and directories
+.git
+.gitignore
+
+# Ignore Turbo files
+**/.turbo
+
+# Ignore node_modules in any location
+**/node_modules
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swm
+
+# Ignore system and editor files
+.DS_Store
+Thumbs.db
+.vscode
+.idea
+
+# Ignore build and cache files
+dist
+.cache
+.next
+.expo
