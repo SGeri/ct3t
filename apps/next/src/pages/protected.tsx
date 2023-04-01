@@ -5,12 +5,16 @@ import { requireAuth, type ProtectedPage } from "~/utils/auth";
 const ProtectedPage: ProtectedPage = ({ user }) => {
   const { mutateAsync: checkNumber } = api.example.checkNumber.useMutation();
 
-  const handleCreate = async () => {
-    const { message } = await checkNumber({
-      number: 2,
-    });
+  const handleCreate = () => async () => {
+    try {
+      const { message } = await checkNumber({
+        number: 2,
+      });
 
-    console.log("success", message);
+      console.log("success", message);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   return (

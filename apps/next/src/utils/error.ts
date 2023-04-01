@@ -3,6 +3,7 @@ import { TRPCClientError } from "@trpc/client";
 
 export const handleAPIError = (err: unknown) => {
   if (err instanceof TRPCClientError) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (err.data?.code == "UNAUTHORIZED" || err.data?.code == "FORBIDDEN") {
       return notifications.show({
         title: "Permission Denied",

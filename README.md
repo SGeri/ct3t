@@ -73,6 +73,14 @@ npm run db:push
 npm run dev
 ```
 
+## Docker
+
+```bash
+docker build -t my-ct3t-image .
+
+docker run -p 3000:3000 --name my-ct3t-container my-ct3t-image
+```
+
 ## See more
 
 - [T3 Stack](https://github.com/t3-oss/create-t3-app)

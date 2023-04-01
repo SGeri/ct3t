@@ -1,6 +1,10 @@
-import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
+import type {
+  GetServerSideProps,
+  GetServerSidePropsContext,
+  NextPage,
+} from "next";
 import { buildClerkProps, getAuth } from "@clerk/nextjs/server";
-import { Role, User, prisma } from "@packages/db";
+import { prisma, type Role, type User } from "@packages/db";
 
 export type ProtectedPage = NextPage<{ user: User }>;
 

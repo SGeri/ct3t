@@ -1,9 +1,6 @@
 {
   "name": "create-t3-turbo",
   "private": true,
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "workspaces": [
     "apps/*",
     "packages/api",
@@ -12,7 +9,6 @@
     "packages/config/eslint",
     "packages/config/tailwind"
   ],
-  "packageManager": "npm@8.1.2",
   "scripts": {
     "build": "dotenv -e .env -- turbo build",
     "clean": "git clean -xdf node_modules",
@@ -20,11 +16,12 @@
     "db:generate": "dotenv -e .env -- turbo db:generate",
     "db:push": "dotenv -e .env -- turbo db:push db:generate",
     "dev": "dotenv -e .env -- turbo dev --parallel",
-    "dev:web": "dotenv -e .env -- npm run dev --workspace apps/next",
     "dev:mobile": "dotenv -e .env -- npm run dev --workspace apps/expo",
-    "studio": "dotenv -e .env -- turbo studio",
+    "dev:web": "dotenv -e .env -- npm run dev --workspace apps/next",
     "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
     "lint": "turbo lint && manypkg check",
+    "start": "dotenv -e .env -- turbo start",
+    "studio": "dotenv -e .env -- turbo studio",
     "type-check": "turbo type-check"
   },
   "dependencies": {
@@ -38,5 +35,9 @@
     "prettier-plugin-tailwindcss": "^0.2.4",
     "turbo": "^1.8.5",
     "typescript": "^4.9.5"
+  },
+  "packageManager": "npm@8.1.2",
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

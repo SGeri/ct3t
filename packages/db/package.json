@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf .turbo node_modules",
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate --accept-data-loss",
+    "db:push": "prisma db push",
     "dev": "prisma studio --port 5556",
     "postinstall": "npm run db:generate",
     "studio": "npm run dev"
