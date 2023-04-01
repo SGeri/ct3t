@@ -76,6 +76,10 @@ npm run dev
 
 ## Docker Deployment (Web Only)
 
+**Note:** This is for production deployment, not development mode.
+**Note:** It is planned to create a development docker-compose file in the future.
+**Note:** This is only for the web app, not the Expo app.
+
 ### Image + Container
 
 First, we create a Docker image from the Dockerfile:
@@ -102,7 +106,6 @@ You can always add the -d flag to run the container in the background. (Detached
 If you wish to use docker-compose, you can ujust use the following command to start the container:
 
 **Note:** This is for production deployment, not development mode.
-**It is planned to create a development docker-compose file in the future.**
 
 ```bash
 docker-compose up
