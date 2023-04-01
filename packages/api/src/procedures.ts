@@ -2,7 +2,7 @@ import { TRPCError } from "@trpc/server";
 import { Role, prisma } from "@packages/db";
 import { middleware, publicProcedure } from "./trpc";
 
-export const createProtectedProcedure = (permissionLevel: Role) => {
+export const createProtectedProcedure = (permissionLevel: Role | Role[]) => {
   const procedureMiddleware = middleware(async ({ next, ctx }) => {
     if (!ctx.auth.userId)
       throw new TRPCError({
@@ -22,7 +22,13 @@ export const createProtectedProcedure = (permissionLevel: Role) => {
         message: "User not found",
       });
 
-    if (user.role !== permissionLevel)
+    const singleRoleCondition =
+      !Array.isArray(permissionLevel) && user.role === permissionLevel;
+
+    const multipleRoleCondition =
+      Array.isArray(permissionLevel) && permissionLevel.includes(user.role);
+
+    if (!singleRoleCondition || !multipleRoleCondition)
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "Not authorized",

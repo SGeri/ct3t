@@ -27,3 +27,5 @@ export const middleware = t.middleware;
 export const employeeProcedure = createProtectedProcedure(Role.EMPLOYEE);
 export const managerProcedure = createProtectedProcedure(Role.MANAGER);
 export const adminProcedure = createProtectedProcedure(Role.ADMIN);
+
+export { createProtectedProcedure } from "./procedures";
