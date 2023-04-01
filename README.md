@@ -13,7 +13,8 @@ There were a few things missing from these already existing repos that I wanted 
 - [x] Added Custom Authentication Handler system by extending GetServerSideProps
 - [x] Added support for routes protected by roles
 - [x] Added [Mantine](https://mantine.dev) for global error handling
-- [ ] Added [Clerk](https://clerk.dev) to the Expo app
+- [x] Added [Docker](https://www.docker.com) and [docker-compose](https://docs.docker.com/compose/) support for production deployment
+- [x] Added [Clerk](https://clerk.dev) to the Expo app
 - [ ] Created detailed description on authentication & error handling usage
 
 ## Quick Start
@@ -98,7 +99,20 @@ You can always add the -d flag to run the container in the background. (Detached
 
 ### With docker-compose
 
-**Work in Progress...**
+If you wish to use docker-compose, you can ujust use the following command to start the container:
+
+**Note:** This is for production deployment, not development mode.
+**It is planned to create a development docker-compose file in the future.**
+
+```bash
+docker-compose up
+```
+
+If you would like to change the database credentials and start-up settings, you can edit the `docker-compose.yml` file.
+
+## Deploying to Vercel
+
+**Currently Work in Progress.**
 
 ## See more
 
