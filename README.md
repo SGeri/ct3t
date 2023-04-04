@@ -120,7 +120,7 @@ If you would like to change the database credentials and start-up settings, you 
 In this example repo, we use a custom VPS to host the web app. You can use any hosting provider you want to integrate our CI/CD automation workflow.
 The file `.github/workflows/main.yml` contains the workflow that will be triggered when you push to the `main` branch.
 
-This workflow utilizes (Docker)[https://www.docker.com/] to build the image and (compose)[https://docs.docker.com/compose/] to run the web app in a container with
+This workflow utilizes [Docker](https://www.docker.com/) to build the image and [compose](https://docs.docker.com/compose/) to run the web app in a container with
 the database. Environment management is partially done by Docker, but on the server you also have to create a .env file for other variables that are not in the Dockerfile.
 
 **Note:** It is possible to integrate Github secrets, so you can change them more easily, but for now we will use a remote .env file.
@@ -129,7 +129,7 @@ The workflow uses the `appleboy/ssh-action` action to connect to the VPS and run
 
 ---
 
-Read more about free self-hosted deployment with Oracle Free Tier Linux in the (SELF-HOST.md file)[SELF-HOST.md].
+Read more about free self-hosted deployment with Oracle Free Tier Linux in the [SELF-HOST.md file](SELF-HOST.md).
 
 ### Vercel
 
