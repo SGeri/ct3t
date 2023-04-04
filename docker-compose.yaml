@@ -12,6 +12,12 @@ services:
     ports:
       - "3000:3000"
 
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+
+    env_file:
+      - .env
+
     depends_on:
       - db
 
@@ -23,6 +29,7 @@ services:
       POSTGRES_USER: ct3t-admin
       POSTGRES_PASSWORD: ct3t-pass
       POSTGRES_DB: ct3t-db
+      POSTGRES_PORT: 5432
 
     ports:
       - "5432:5432"
