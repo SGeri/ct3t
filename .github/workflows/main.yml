@@ -9,8 +9,8 @@ on:
       - main
 
 env:
-  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}}
-  CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+  #NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}}
+  #CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
 
   VPS_HOST: ${{ secrets.VPS_HOST }}
   VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
@@ -25,11 +25,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 18
-
+      # Caching dependencies to speed up the build process
       - name: NextJS CI Cache
         uses: actions/cache@v3
         with:
@@ -40,7 +36,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
-      # Clean install of dependencies
+      # Setting up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      # Cleaning install of dependencies
       - name: Install dependencies
         run: npm ci
 
@@ -49,7 +51,7 @@ jobs:
         run: npm run build
         env:
           SKIP_ENV_VALIDATION: 1
-          NEXT_TELEMETRY_DISABLED: 1
+          #NEXT_TELEMETRY_DISABLED: 1
           #NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
           #CLERK_SECRET_KEY: ${{ env.CLERK_SECRET_KEY }}
 
