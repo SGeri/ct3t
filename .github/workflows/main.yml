@@ -33,13 +33,14 @@ jobs:
       # Clean install of dependencies
       - name: Install dependencies
         run: npm ci
-        env:
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
-          CLERK_SECRET_KEY=${{ env.CLERK_SECRET_KEY }}
 
       # Checking for linting / building errors
       - name: Build project
-        run: SKIP_ENV_VALIDATION=1 npm run build
+        run: npm run build
+        env: |
+          SKIP_ENV_VALIDATION=1
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=1
+          CLERK_SECRET_KEY=2
 
       # Docker Deployment in 4 steps:
       # 1. Pull the latest changes from the repo & build nextjs
