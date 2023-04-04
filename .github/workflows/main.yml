@@ -33,7 +33,7 @@ jobs:
 
       # Checking for linting / building errors
       - name: Build project
-        run: npm run build
+        run: SKIP_ENV_VALIDATION=1 npm run build
 
       # Docker Deployment in 4 steps:
       # 1. Pull the latest changes from the repo & build nextjs
