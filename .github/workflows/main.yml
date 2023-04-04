@@ -69,8 +69,8 @@ jobs:
           username: ${{ env.VPS_USERNAME }}
           key: ${{ env.VPS_SSH_PRIVATE_KEY }}
           script: |
-            sudo docker-compose down --remove-orphans
+            sudo docker compose down --remove-orphans
             cd /var/www/t3-test
             sudo git fetch
             sudo git pull
-            sudo docker-compose up -d
+            sudo docker compose up -d
