@@ -23,7 +23,7 @@ jobs:
     steps:
       # Setting up the action
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Caching dependencies to speed up the build process
       - name: NextJS CI Cache
@@ -38,7 +38,7 @@ jobs:
 
       # Setting up Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 

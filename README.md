@@ -74,7 +74,7 @@ npm run db:push
 npm run dev
 ```
 
-## Docker Deployment (Web Only)
+## Docker (Web Only)
 
 **Note:** This is for production deployment, not development mode.
 **Note:** It is planned to create a development docker-compose file in the future.
@@ -103,7 +103,7 @@ You can always add the -d flag to run the container in the background. (Detached
 
 ### With docker-compose
 
-If you wish to use docker-compose, you can ujust use the following command to start the container:
+If you wish to use docker-compose, you can just use the following command to start the container:
 
 **Note:** This is for production deployment, not development mode.
 
@@ -113,7 +113,21 @@ docker-compose up
 
 If you would like to change the database credentials and start-up settings, you can edit the `docker-compose.yml` file.
 
-## Deploying to Vercel
+## Deployment (Web Only)
+
+### Self-Hosted
+
+In this example repo, we use a custom VPS to host the web app. You can use any hosting provider you want to integrate our CI/CD automation workflow.
+The file `.github/workflows/main.yml` contains the workflow that will be triggered when you push to the `main` branch.
+
+This workflow utilizes (Docker)[https://www.docker.com/] to build the image and (compose)[https://docs.docker.com/compose/] to run the web app in a container with
+the database. Environment management is partially done by Docker, but on the server you also have to create a .env file for other variables that are not in the Dockerfile.
+
+**Note:** It is possible to integrate Github secrets, so you can change them more easily, but for now we will use a remote .env file.
+
+The workflow uses the `appleboy/ssh-action` action to connect to the VPS and run our commands to deploy.
+
+### Vercel
 
 **Currently Work in Progress.**
 
