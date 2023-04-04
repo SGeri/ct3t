@@ -9,6 +9,9 @@ on:
       - main
 
 env:
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: 1
+  CLERK_SECRET_KEY: 2
+
   VPS_HOST: ${{ secrets.VPS_HOST }}
   VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
   VPS_SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
@@ -30,6 +33,9 @@ jobs:
       # Clean install of dependencies
       - name: Install dependencies
         run: npm ci
+        env:
+          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          CLERK_SECRET_KEY=${{ env.CLERK_SECRET_KEY }}
 
       # Checking for linting / building errors
       - name: Build project
