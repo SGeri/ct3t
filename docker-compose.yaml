@@ -13,7 +13,7 @@ services:
       - "3000:3000"
 
     environment:
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+      - DATABASE_URL=postgres://ct3t-admin:ct3t-pass@db:5432/ct3t-db
 
     env_file:
       - .env
