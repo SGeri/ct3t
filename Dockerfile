@@ -13,6 +13,10 @@ COPY . .
 # Install the npm packages, including the package manager
 RUN npm ci
 
+# Declare argument from docker-compose.yml
+ARG DATABASE_URL
+ENV DATABASE_URL $DATABASE_URL
+
 # Disable telemetry
 ENV NEXT_TELEMETRY_DISABLED 1
 

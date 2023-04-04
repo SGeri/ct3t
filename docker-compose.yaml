@@ -5,15 +5,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - DATABASE_URL=postgres://ct3t-admin:ct3t-pass@db:5432/ct3t-db
 
     image: my-ct3t-image
     container_name: my-ct3t-container
 
     ports:
       - "3000:3000"
-
-    environment:
-      DATABASE_URL: "postgres://ct3t-admin:ct3t-pass@db:5432/ct3t-db"
 
     env_file:
       - .env
