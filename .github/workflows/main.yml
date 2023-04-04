@@ -50,8 +50,8 @@ jobs:
         env:
           SKIP_ENV_VALIDATION: 1
           NEXT_TELEMETRY_DISABLED: 1
-          NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
-          CLERK_SECRET_KEY: ${{ env.CLERK_SECRET_KEY }}
+          #NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+          #CLERK_SECRET_KEY: ${{ env.CLERK_SECRET_KEY }}
 
       # Docker Deployment in 4 steps:
       # 1. Pull the latest changes from the repo & build nextjs
