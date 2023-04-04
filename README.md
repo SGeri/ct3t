@@ -127,6 +127,10 @@ the database. Environment management is partially done by Docker, but on the ser
 
 The workflow uses the `appleboy/ssh-action` action to connect to the VPS and run our commands to deploy.
 
+---
+
+Read more about free self-hosted deployment with Oracle Free Tier Linux in the (SELF-HOST.md file)[SELF-HOST.md].
+
 ### Vercel
 
 **Currently Work in Progress.**
