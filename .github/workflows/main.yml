@@ -61,6 +61,8 @@ jobs:
       # Linting the code
       - name: Run Linter
         run: npm run lint
+        env:
+          SKIP_ENV_VALIDATION: 1
 
       # Checking for linting / building errors
       - name: Build project
