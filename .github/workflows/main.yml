@@ -58,6 +58,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Linting the code
+      - name: Run Linter
+        run: npm run lint
+
       # Checking for linting / building errors
       - name: Build project
         run: npm run build
@@ -78,6 +82,7 @@ jobs:
       # Deploy to VPS with Docker
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v0.1.8
+        if: "!contains(github.event.head_commit.message, '[skip ci]')"
         with:
           host: ${{ env.VPS_HOST }}
           username: ${{ env.VPS_USERNAME }}
