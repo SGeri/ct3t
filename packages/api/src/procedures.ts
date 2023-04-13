@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
-import { Role, prisma } from "@packages/db";
-import { middleware, publicProcedure } from "./trpc";
+import { Ratelimit } from "@upstash/ratelimit";
+import { Role, prisma, redis } from "@packages/db";
+import { middleware, procedure, publicProcedure } from "./trpc";
 
 export const createProtectedProcedure = (permissionLevel: Role | Role[]) => {
   const procedureMiddleware = middleware(async ({ next, ctx }) => {
@@ -43,4 +44,31 @@ export const createProtectedProcedure = (permissionLevel: Role | Role[]) => {
   });
 
   return publicProcedure.use(procedureMiddleware);
+};
+
+type Window = Parameters<typeof Ratelimit.fixedWindow>[1];
+
+export const createRatelimitedProcedure = (
+  limit: number = 10,
+  window: Window = "5 s",
+) => {
+  const ratelimit = new Ratelimit({
+    redis: redis,
+    limiter: Ratelimit.fixedWindow(limit, window),
+  });
+
+  const procedureMiddleware = middleware(async ({ next, ctx }) => {
+    const identifier = ctx.ip; // what to do if ip is null?
+    const result = await ratelimit.limit(identifier as string);
+
+    if (!result.success)
+      throw new TRPCError({
+        code: "TOO_MANY_REQUESTS",
+        message: "You are ratelimited, please slow down",
+      });
+
+    return next({ ctx });
+  });
+
+  return procedure.use(procedureMiddleware);
 };

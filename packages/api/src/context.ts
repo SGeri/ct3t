@@ -5,21 +5,26 @@ import type {
 import { getAuth } from "@clerk/nextjs/server";
 import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import requestIP from "request-ip";
 import { prisma } from "@packages/db";
 
-type AuthContextProps = {
+type ContextProps = {
   auth: SignedInAuthObject | SignedOutAuthObject;
+  ip: string | null;
 };
 
-export const createContextInner = async ({ auth }: AuthContextProps) => {
+export const createContextInner = async ({ auth, ip }: ContextProps) => {
   return {
     auth,
+    ip,
     prisma,
   };
 };
 
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  return await createContextInner({ auth: getAuth(opts.req) });
+  const clientIP = requestIP.getClientIp(opts.req);
+
+  return await createContextInner({ auth: getAuth(opts.req), ip: clientIP });
 };
 
 export type CreateTRPCContext = typeof createTRPCContext;

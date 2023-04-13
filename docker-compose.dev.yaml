@@ -1,30 +1,10 @@
 version: "3.8"
 
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        - DATABASE_URL=postgres://ct3t-admin:ct3t-pass@db:5432/ct3t-db
-        - UPSTASH_REDIS_REST_URL=http://localhost:8079
-        - UPSTASH_REDIS_REST_TOKEN=ct3t-srh-token
-
-    image: my-ct3t-image
-    container_name: my-ct3t-container
-
-    ports:
-      - "3000:3000"
-
-    env_file:
-      - .env
-
-    depends_on:
-      - db
-
   db:
     image: postgres:latest
 
+    # used to create the database credentials
     environment:
       POSTGRES_USER: ct3t-admin
       POSTGRES_PASSWORD: ct3t-pass
@@ -34,7 +14,7 @@ services:
     ports:
       - "5432:5432"
 
-  cache:
+  redis:
     image: redis:latest
 
     ports:
