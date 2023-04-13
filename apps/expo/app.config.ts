@@ -33,10 +33,9 @@ const defineConfig = (): ExpoConfig => ({
     },
 
     // Environment variables for the app
-    // Usage: Constants.expoConfig.extra.env.<ENVIRONMENT_VARIABLE>
-    env: {
-      clerkPublishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-    },
+    // Usage: Constants.expoConfig.extra.<ENVIRONMENT_VARIABLE>
+    clerkPublishableKey: process.env
+      .NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY as string,
 
     production: {},
   },

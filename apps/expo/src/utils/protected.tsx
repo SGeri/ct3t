@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/clerk-expo";
-import { User } from "@packages/db";
+import { type User } from "@packages/db";
 import { api } from "./api";
 
 export type ProtectedComponentProps = {
@@ -9,8 +9,8 @@ export type ProtectedComponentProps = {
 
 export type ProtectedComponent = React.FC<ProtectedComponentProps>;
 
-export const requireAuth =
-  (Component: React.FC<ProtectedComponentProps>) => () => {
+export const requireAuth = (Component: React.FC<ProtectedComponentProps>) => {
+  const WrappedComponent = () => {
     const { userId } = useAuth();
     const { data } = api.auth.getUser.useQuery();
 
@@ -18,3 +18,8 @@ export const requireAuth =
 
     return <Component user={data.user} loading={false} />;
   };
+
+  WrappedComponent.displayName = `AuthRequired(${Component.displayName})`;
+
+  return WrappedComponent;
+};

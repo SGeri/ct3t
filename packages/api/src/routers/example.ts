@@ -3,7 +3,7 @@ import { z } from "zod";
 import { adminProcedure, createRouter, publicProcedure } from "../trpc";
 
 export const exampleRouter = createRouter({
-  test: publicProcedure.query(({ ctx }) => {
+  test: publicProcedure.query(() => {
     return {
       message: "Hello World!",
     };
@@ -15,7 +15,7 @@ export const exampleRouter = createRouter({
         number: z.number(),
       }),
     )
-    .mutation(async ({ ctx, input }) => {
+    .mutation(({ input }) => {
       if (input.number !== 1)
         throw new TRPCError({
           code: "BAD_REQUEST",

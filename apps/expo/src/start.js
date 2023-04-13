@@ -3,8 +3,8 @@
 
 // TODO: Currently this is not working, error code: "Error: spawn npx ENOENT"
 
-const spawn = require("cross-spawn");
-const os = require("os");
+const spawn = require("cross-spawn"); // eslint-disable-line
+const os = require("os"); // eslint-disable-line
 
 const platform = os.platform();
 

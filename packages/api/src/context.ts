@@ -13,7 +13,7 @@ type ContextProps = {
   ip: string | null;
 };
 
-export const createContextInner = async ({ auth, ip }: ContextProps) => {
+export const createContextInner = ({ auth, ip }: ContextProps) => {
   return {
     auth,
     ip,
@@ -21,10 +21,10 @@ export const createContextInner = async ({ auth, ip }: ContextProps) => {
   };
 };
 
-export const createTRPCContext = async (opts: CreateNextContextOptions) => {
+export const createTRPCContext = (opts: CreateNextContextOptions) => {
   const clientIP = requestIP.getClientIp(opts.req);
 
-  return await createContextInner({ auth: getAuth(opts.req), ip: clientIP });
+  return createContextInner({ auth: getAuth(opts.req), ip: clientIP });
 };
 
 export type CreateTRPCContext = typeof createTRPCContext;

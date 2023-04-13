@@ -19,7 +19,7 @@
     "dev:mobile": "dotenv -e .env -- npm run dev --workspace apps/expo",
     "dev:web": "dotenv -e .env -- npm run dev --workspace apps/next",
     "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
-    "lint": "turbo lint && manypkg check",
+    "lint": "dotenv -e .env -- turbo lint && manypkg check",
     "start": "dotenv -e .env -- turbo start",
     "studio": "dotenv -e .env -- turbo studio",
     "type-check": "turbo type-check"

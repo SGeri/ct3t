@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { Ratelimit } from "@upstash/ratelimit";
-import { Role, prisma, redis } from "@packages/db";
+import { prisma, redis, type Role } from "@packages/db";
 import { middleware, procedure, publicProcedure } from "./trpc";
 
 export const createProtectedProcedure = (permissionLevel: Role | Role[]) => {
@@ -49,7 +49,7 @@ export const createProtectedProcedure = (permissionLevel: Role | Role[]) => {
 type Window = Parameters<typeof Ratelimit.fixedWindow>[1];
 
 export const createRatelimitedProcedure = (
-  limit: number = 10,
+  limit = 10,
   window: Window = "5 s",
 ) => {
   const ratelimit = new Ratelimit({

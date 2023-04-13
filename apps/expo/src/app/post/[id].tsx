@@ -1,6 +1,5 @@
 import { SafeAreaView, Text, View } from "react-native";
 import { SplashScreen, Stack, useSearchParams } from "expo-router";
-import { api } from "~/utils/api";
 
 const Post: React.FC = () => {
   const { id } = useSearchParams();
