@@ -19,6 +19,7 @@ ENV DATABASE_URL $DATABASE_URL
 
 # Disable telemetry
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV UPSTASH_TELEMETRY_DISABLED 1
 
 # Build the application
 RUN npm run build

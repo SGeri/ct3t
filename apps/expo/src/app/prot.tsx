@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
-import { ProtectedComponent, requireAuth } from "../utils/protected";
+import { requireAuth, type ProtectedComponent } from "../utils/protected";
 
 const Protected: ProtectedComponent = ({ loading, user }) => {
   return (

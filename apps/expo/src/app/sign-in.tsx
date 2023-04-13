@@ -2,13 +2,14 @@ import { useState } from "react";
 import {
   Text,
   TextInput,
-  TextInputProps,
   TouchableOpacity,
   View,
+  type TextInputProps,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 import { useSignIn } from "@clerk/clerk-expo";
+import { type ClerkAPIError } from "@clerk/types";
 
 const SignIn = () => {
   const router = useRouter();
@@ -47,10 +48,16 @@ const SignIn = () => {
       await setSession(createdSessionId);
 
       router.replace("/");
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const clerkErr = err as {
+        errors: ClerkAPIError[];
+      };
+
       console.error(
         "Error during login:",
-        err?.errors ? err?.errors[0].message : err,
+        clerkErr?.errors && clerkErr?.errors?.length > 0
+          ? clerkErr?.errors
+          : err,
       );
     }
   };
@@ -83,7 +90,7 @@ const SignIn = () => {
         <TouchableOpacity
           className="mx-auto mt-4 rounded-2xl border bg-slate-500 px-5 py-3"
           activeOpacity={0.8}
-          onPress={handleSignInPress}
+          onPress={() => handleSignInPress()}
         >
           <Text className="text-center text-lg text-white">Sign In</Text>
         </TouchableOpacity>

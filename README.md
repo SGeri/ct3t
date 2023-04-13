@@ -103,12 +103,17 @@ You can always add the -d flag to run the container in the background. (Detached
 
 ### With docker-compose
 
+We can use docker-compose to run development environment and also production environment.
+Production environment is the same as the dev, but it also builds the Dockerfile and runs it as a container.
+
+You can read more about self hosting CT3T with Oracle Free Tier Linux in the (SELF-HOST.md file)[SELF-HOST.md].
+
 If you wish to use docker-compose, you can just use the following command to start the container:
 
 **Note:** This is for production deployment, not development mode.
 
 ```bash
-docker-compose up
+docker-compose up -d // docker-compose -f docker-compose.dev.yml up
 ```
 
 If you would like to change the database credentials and start-up settings, you can edit the `docker-compose.yml` file.

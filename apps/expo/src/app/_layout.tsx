@@ -7,8 +7,8 @@ import { ClerkProvider } from "@clerk/clerk-expo";
 import { TRPCProvider } from "../utils/api";
 import tokenCache from "../utils/tokenCache";
 
-const clerkPublishableKey =
-  Constants.expoConfig?.extra?.env?.clerkPublishableKey;
+const clerkPublishableKey = Constants.expoConfig?.extra
+  ?.clerkPublishableKey as string;
 
 const RootLayout = () => {
   return (

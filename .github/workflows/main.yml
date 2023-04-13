@@ -11,6 +11,7 @@ on:
 env:
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
   CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+  SRH_TOKEN: example-token
 
   VPS_HOST: ${{ secrets.VPS_HOST }}
   VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
@@ -19,6 +20,17 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    container: node:18
+    services:
+      redis:
+        image: redis/redis-stack-server:6.2.6-v6
+      srh:
+        image: hiett/serverless-redis-http:latest
+        env:
+          SRH_MODE: env
+          SRH_TOKEN: ${{ env.SRH_TOKEN }}
+          SRH_CONNECTION_STRING: redis://redis:6379
 
     steps:
       # Setting up the action
@@ -50,10 +62,12 @@ jobs:
       - name: Build project
         run: npm run build
         env:
+          NEXT_TELEMETRY_DISABLED: 1
           SKIP_ENV_VALIDATION: 1
-          #NEXT_TELEMETRY_DISABLED: 1
           NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
           CLERK_SECRET_KEY: ${{ env.CLERK_SECRET_KEY }}
+          UPSTASH_REDIS_REST_URL: http://srh:80
+          UPSTASH_REDIS_REST_TOKEN: ${{ env.SRH_TOKEN }}
 
       # Docker Deployment in 4 steps:
       # 1. Pull the latest changes from the repo & build nextjs

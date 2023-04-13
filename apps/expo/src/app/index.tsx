@@ -13,9 +13,13 @@ const App = () => {
   const user = data?.user;
 
   // query does not refetch when coming back
-  const handleSignOut = () => {
-    signOut();
-    refetch();
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      await refetch();
+    } catch (err: unknown) {
+      console.error(err);
+    }
   };
 
   return (
