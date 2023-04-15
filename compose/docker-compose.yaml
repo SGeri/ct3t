@@ -3,7 +3,7 @@ version: "3.8"
 services:
   web:
     build:
-      context: .
+      context: ../.
       dockerfile: Dockerfile
       args:
         - DATABASE_URL=postgres://ct3t-admin:ct3t-pass@db:5432/ct3t-db
@@ -21,6 +21,8 @@ services:
 
     depends_on:
       - db
+      - cache
+      - serverless-redis-http
 
   db:
     image: postgres:latest
