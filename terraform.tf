@@ -50,7 +50,7 @@ resource "vercel_project" "next" {
     },
     {
       key    = "UPSTASH_REDIS_REST_URL"
-      value  = data.upstash_redis_database_data.redis_data.endpoint
+      value  = "https://${data.upstash_redis_database_data.redis_data.endpoint}"
       target = ["development", "preview", "production"]
     },
     {
