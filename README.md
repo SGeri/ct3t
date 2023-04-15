@@ -113,7 +113,7 @@ If you wish to use docker-compose, you can just use the following command to sta
 **Note:** This is for production deployment, not development mode.
 
 ```bash
-docker-compose up -d // docker-compose -f docker-compose.dev.yml up
+docker-compose up -d // docker-compose -f compose/docker-compose.dev.yml up
 ```
 
 If you would like to change the database credentials and start-up settings, you can edit the `docker-compose.yml` file.

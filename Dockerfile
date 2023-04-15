@@ -13,9 +13,14 @@ COPY . .
 # Install the npm packages, including the package manager
 RUN npm ci
 
-# Declare argument from docker-compose.yml
-ARG DATABASE_URL
+# Declare arguments from docker-compose.yml
+ARG DATABASE_URL 
+ARG UPSTASH_REDIS_REST_URL
+ARG UPSTASH_REDIS_REST_TOKEN
+
 ENV DATABASE_URL $DATABASE_URL
+ENV UPSTASH_REDIS_REST_URL $UPSTASH_REDIS_REST_URL
+ENV UPSTASH_REDIS_REST_TOKEN $UPSTASH_REDIS_REST_TOKEN
 
 # Disable telemetry
 ENV NEXT_TELEMETRY_DISABLED 1

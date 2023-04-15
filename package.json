@@ -22,7 +22,10 @@
     "lint": "dotenv -e .env -- turbo lint && manypkg check",
     "start": "dotenv -e .env -- turbo start",
     "studio": "dotenv -e .env -- turbo studio",
-    "type-check": "turbo type-check"
+    "type-check": "turbo type-check",
+    "infra:plan": "dotenv -e .env -- terraform plan",
+    "infra:apply": "dotenv -e .env -- terraform apply",
+    "infra:destroy": "dotenv -e .env -- terraform destroy"
   },
   "dependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
@@ -33,6 +36,7 @@
     "eslint-config-acme": "0.0.0",
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.2.4",
+    "terraform-npm": "^0.2.6",
     "turbo": "^1.8.5",
     "typescript": "^4.9.5"
   },
