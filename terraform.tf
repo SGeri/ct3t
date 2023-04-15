@@ -18,6 +18,8 @@ resource "vercel_project" "example" {
     type = "github"
     repo = "SGeri/ct3t"
   }
+  root_directory = "apps/next"
+  build_command  = "cd ../.. && npm run build"
 }
 
 variable "VERCEL_API_TOKEN" {
