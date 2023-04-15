@@ -91,7 +91,7 @@ jobs:
           key: ${{ env.VPS_SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/t3-test
-            sudo docker compose down -f compose/docker-compose.yml --remove-orphans
+            sudo docker-compose down --remove-orphans -f compose/docker-compose.yml
             sudo git fetch
             sudo git pull
-            sudo docker compose up -d -f compose/docker-compose.yml
+            sudo docker-compose up -d -f compose/docker-compose.yml

@@ -23,6 +23,7 @@
     "start": "dotenv -e .env -- turbo start",
     "studio": "dotenv -e .env -- turbo studio",
     "type-check": "turbo type-check",
+    "tf:init": "dotenv -e .env -- terraform init",
     "tf:plan": "dotenv -e .env -- terraform plan",
     "tf:apply": "dotenv -e .env -- terraform apply",
     "tf:destroy": "dotenv -e .env -- terraform destroy"
