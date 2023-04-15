@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { GetServerSidePropsContext } from "next";
+import { type GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { SignIn, useSignIn } from "@clerk/nextjs";
+import { useSignIn } from "@clerk/nextjs";
 import { getAuth } from "@clerk/nextjs/server";
-import { ClerkAPIError } from "@clerk/types";
+import { type ClerkAPIError } from "@clerk/types";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -43,10 +43,10 @@ const SignInPage = () => {
 
       await setSession(createdSessionId);
 
-      router.replace(redirectUrl ? String(redirectUrl) : "/");
+      await router.replace(redirectUrl ? String(redirectUrl) : "/");
     } catch (err: unknown) {
       const clerkErr = err as {
-        errors: ClerkAPIError[];
+        errors?: ClerkAPIError[];
       };
 
       console.error(
@@ -102,7 +102,7 @@ const SignInPage = () => {
               </div>
               <button
                 className="w-full rounded-lg bg-indigo-600 px-4 py-2 font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                onClick={handleSignInPress}
+                onClick={() => handleSignInPress}
               >
                 Login
               </button>
@@ -114,7 +114,7 @@ const SignInPage = () => {
   );
 };
 
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+export const getServerSideProps = (ctx: GetServerSidePropsContext) => {
   const { userId } = getAuth(ctx.req);
 
   if (userId) return { redirect: { destination: "/", permanent: false } };

@@ -50,7 +50,7 @@ const SignIn = () => {
       router.replace("/");
     } catch (err: unknown) {
       const clerkErr = err as {
-        errors: ClerkAPIError[];
+        errors?: ClerkAPIError[];
       };
 
       console.error(
