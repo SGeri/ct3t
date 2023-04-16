@@ -14,6 +14,10 @@ services:
     ports:
       - "5432:5432"
 
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      #- ./postgres-seed.sql:/docker-entrypoint-initdb.d/init.sql - add startup SQL to seed the database
+
   redis:
     image: redis:latest
 
@@ -30,3 +34,6 @@ services:
       SRH_MODE: env
       SRH_TOKEN: ct3t-srh-token
       SRH_CONNECTION_STRING: "redis://redis:6379"
+
+volumes:
+  db_data:

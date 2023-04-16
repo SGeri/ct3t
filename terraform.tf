@@ -4,6 +4,7 @@ Also, the connection string, that would be supplied to the Vercel environment, i
 Therefore, the connection string is supplied manually to the Vercel environment.
 
 [TODO] Current plans are to include an S3 bucket for document uploading and SES Service for emailing in the Terraform config with AWS providers.
+Also include Cloudflare for domain + DNS management.
 */
 
 terraform {
