@@ -75,23 +75,19 @@ jobs:
           UPSTASH_REDIS_REST_URL: http://srh:80
           UPSTASH_REDIS_REST_TOKEN: ${{ env.SRH_TOKEN }}
 
-      # Docker Deployment in 4 steps:
-      # 1. Pull the latest changes from the repo & build nextjs
-      # 2. Migrate the database
-      # 3. Configure Nginx
-      # 4. Restart the services
+      # Turned off for now, as we are using Cloud Providers with Terraform
 
       # Deploy to VPS with Docker
-      - name: Deploy to VPS
-        uses: appleboy/ssh-action@v0.1.8
-        if: "!contains(github.event.head_commit.message, '[skip ci]')"
-        with:
-          host: ${{ env.VPS_HOST }}
-          username: ${{ env.VPS_USERNAME }}
-          key: ${{ env.VPS_SSH_PRIVATE_KEY }}
-          script: |
-            cd /var/www/t3-test
-            sudo docker compose -f compose/docker-compose.yaml down --remove-orphans 
-            sudo git fetch
-            sudo git pull
-            sudo docker compose -f compose/docker-compose.yaml up -d
+      # - name: Deploy to VPS
+      #   uses: appleboy/ssh-action@v0.1.8
+      #   if: "!contains(github.event.head_commit.message, '[skip ci]')"
+      #   with:
+      #     host: ${{ env.VPS_HOST }}
+      #     username: ${{ env.VPS_USERNAME }}
+      #     key: ${{ env.VPS_SSH_PRIVATE_KEY }}
+      #     script: |
+      #       cd /var/www/t3-test
+      #       sudo docker compose -f compose/docker-compose.yaml down --remove-orphans
+      #       sudo git fetch
+      #       sudo git pull
+      #       sudo docker compose -f compose/docker-compose.yaml up -d

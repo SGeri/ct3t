@@ -1,3 +1,6 @@
+# [TODO] make a multi-staged build so that processes can be cached
+# Use the T3 builder + other best practices
+
 # Use the official Node.js image as the base image
 FROM node:18
 

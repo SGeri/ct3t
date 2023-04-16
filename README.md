@@ -136,9 +136,42 @@ The workflow uses the `appleboy/ssh-action` action to connect to the VPS and run
 
 Read more about free self-hosted deployment with Oracle Free Tier Linux in the [SELF-HOST.md file](SELF-HOST.md).
 
-### Vercel
+### Terraform
 
-**Currently Work in Progress.**
+For this example, we've created a Terraform configuration that will initialize the following providers and services:
+
+- [Cloudflare](https://www.cloudflare.com) for Domain and DNS management
+
+  - Used to create a DNS record that points to Vercel
+
+- [Vercel](https://vercel.com) for hosting the web application
+
+  - Used to create a Vercel project and deploy and inject the environment variables from other providers
+
+- [Upstash](https://upstash.com) for Redis database
+  - Used to create a Redis database
+
+To set your own production infrastructure, you can follow these steps:
+
+0. You have to have the Terraform CLI installed on your machine. You can download it from [here](https://www.terraform.io/downloads.html).
+1. Run `npm run tf:init` to initialize the providers and modules.
+2. Add your environment variables that start with `TF_VAR_` to the `.env` file.
+3. Run `npm run tf:plan` to see what changes will be made to the infrastructure.
+4. Run `npm run tf:apply` to apply the changes to the infrastructure.
+
+Instead of directly using the Terraform CLI, you can also use the `npm run tf` command to ensure that the environment variables are loaded.
+
+**Note:** Sadly, there are no established solutions for using Planetscale with Terraform that provide the connection string. Therefore,
+we simply require the connection string to be passed as an environment variable.
+
+### Best practices for your infrastructure
+
+- Use the `compose/docker-compose.dev.yaml` file to run the development environment locally with persistent database data or use the `compose/postgres-seed.sql`
+  to seed the database with some data so the same sample data will be available in every development session.
+
+- Use the terraform configuration (`terraform.tf`) to create the production resources and use Vercel's CI/CD system to deploy the web app.
+
+- For every other special needs, use Github Actions to automate your CI/CD workflow. This project includes a workflow that will do linting, building. Optionally you can deploy the web app to a VPS, this is also included in the workflow.
 
 ## See more
 
