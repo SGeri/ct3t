@@ -18,9 +18,18 @@ env:
   VPS_SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
 
 jobs:
-  build-and-deploy:
+  build:
+    name: Lint and Build
+    timeout-minutes: 15
     runs-on: ubuntu-latest
 
+    # Remote Caching
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+      TURBO_REMOTE_ONLY: true
+
+    # Mock HTTP Redis server
     container: node:18
     services:
       redis:
