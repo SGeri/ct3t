@@ -4,7 +4,6 @@ Also, the connection string, that would be supplied to the Vercel environment, i
 Therefore, the connection string is supplied manually to the Vercel environment.
 
 [TODO] Current plans are to include an S3 bucket for document uploading and SES Service for emailing in the Terraform config with AWS providers.
-Also include Cloudflare for domain + DNS management.
 */
 
 terraform {
@@ -16,6 +15,10 @@ terraform {
     upstash = {
       source  = "upstash/upstash"
       version = "1.3.0"
+    }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "4.3.0"
     }
   }
 }
@@ -30,6 +33,9 @@ provider "upstash" {
   api_key = var.UPSTASH_API_KEY
 }
 
+provider "cloudflare" {
+  api_token = var.CLOUDFLARE_API_TOKEN
+}
 
 /* --- RESOURCES --- */
 resource "vercel_project" "next" {
@@ -72,6 +78,19 @@ resource "vercel_project" "next" {
   ]
 }
 
+resource "vercel_project_domain" "next_domain" {
+  project_id = vercel_project.next.id
+  domain     = local.URL
+}
+
+resource "cloudflare_record" "record" {
+  zone_id = var.CLOUDFLARE_ZONE_ID
+  type    = "CNAME"
+  name    = local.SUBDOMAIN
+  value   = "cname.vercel-dns.com"
+  proxied = true
+}
+
 resource "upstash_redis_database" "redis" {
   database_name = "ct3t-redis"
   region        = "eu-central-1"
@@ -83,10 +102,24 @@ data "upstash_redis_database_data" "redis_data" {
   database_id = resource.upstash_redis_database.redis.database_id
 }
 
-/* --- VARIABLES (from env) --- */
+data "cloudflare_accounts" "accounts" {
+  name = var.CLOUDFLARE_EMAIL
+}
+
+/* --- CONFIG VARIABLES (from env) --- */
 variable "VERCEL_API_TOKEN" {}
+variable "CLOUDFLARE_API_TOKEN" {}
+variable "CLOUDFLARE_EMAIL" {}
+variable "CLOUDFLARE_ZONE_ID" {}
 variable "UPSTASH_EMAIL" {}
 variable "UPSTASH_API_KEY" {}
 variable "PLANETSCALE_DB_URL" {}
 variable "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" {}
 variable "CLERK_SECRET_KEY" {}
+
+/* --- LOCAL VARIABLES --- */
+locals {
+  SUBDOMAIN = "ct3t"
+  DOMAIN    = "sarffy.dev"
+  URL       = "${local.SUBDOMAIN}.${local.DOMAIN}"
+}
