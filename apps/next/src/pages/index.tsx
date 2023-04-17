@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   const { isSignedIn, userId } = useAuth();
-  const test = api.example.test.useQuery();
+  const test = api.example.getName.useQuery();
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         </p>
 
         <p className="text-base text-white">
-          Test data: {test.data ? test.data.message : "Loading..."}
+          Test data: {test.data ? test.data.name : "Loading..."}
         </p>
 
         <p className="text-base text-white">
