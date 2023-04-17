@@ -27,7 +27,7 @@
     "tf:destroy": "dotenv -e .env -- terraform destroy",
     "tf:init": "dotenv -e .env -- terraform init",
     "tf:plan": "dotenv -e .env -- terraform plan",
-    "type-check": "turbo type-check"
+    "type-check": "dotenv -e .env -- turbo type-check"
   },
   "dependencies": {
     "@ianvs/prettier-plugin-sort-imports": "^3.7.1",

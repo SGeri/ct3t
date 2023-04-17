@@ -16,7 +16,9 @@ services:
 
     volumes:
       - db_data:/var/lib/postgresql/data
-      #- ./postgres-seed.sql:/docker-entrypoint-initdb.d/init.sql - add startup SQL to seed the database
+      # uncomment the next line to seed the database with a startup SQL script
+      # also remove the persistent volume above to ensure successful seeding
+      #- ./postgres-seed.sql:/docker-entrypoint-initdb.d/init.sql
 
   redis:
     image: redis:latest
