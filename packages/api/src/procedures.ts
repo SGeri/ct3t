@@ -1,6 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { Ratelimit } from "@upstash/ratelimit";
-import { prisma, redis, type Role } from "@packages/db";
+import { redis, type Role } from "@packages/db";
+import { userService } from "./services/user.service";
 import { middleware, procedure, publicProcedure } from "./trpc";
 
 export const createProtectedProcedure = (permissionLevel: Role | Role[]) => {
@@ -11,11 +12,7 @@ export const createProtectedProcedure = (permissionLevel: Role | Role[]) => {
         message: "Not authenticated",
       });
 
-    const user = await prisma.user.findUnique({
-      where: {
-        clerk_id: ctx.auth.userId,
-      },
-    });
+    const user = await userService.getUserByClerkId(ctx.auth.userId);
 
     if (!user)
       throw new TRPCError({
@@ -29,7 +26,7 @@ export const createProtectedProcedure = (permissionLevel: Role | Role[]) => {
     const multipleRoleCondition =
       Array.isArray(permissionLevel) && permissionLevel.includes(user.role);
 
-    if (!singleRoleCondition || !multipleRoleCondition)
+    if (!singleRoleCondition && !multipleRoleCondition)
       throw new TRPCError({
         code: "FORBIDDEN",
         message: "Not authorized",

@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { Redis } from "@upstash/redis";
 
 export * from "@prisma/client";
@@ -21,4 +21,4 @@ const redis = new Redis({
   token: process.env.UPSTASH_REDIS_REST_TOKEN,
 });
 
-export { prisma, redis };
+export { Prisma, prisma, redis };

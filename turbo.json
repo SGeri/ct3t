@@ -37,6 +37,10 @@
     "type-check": {
       "dependsOn": ["^db:generate"],
       "cache": false
+    },
+    "studio": {
+      "dependsOn": ["^db:generate"],
+      "cache": false
     }
   },
   "globalEnv": [

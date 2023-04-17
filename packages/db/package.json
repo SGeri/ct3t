@@ -9,6 +9,7 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "dev": "prisma studio --port 5556",
+    "dev:web": "npm run dev",
     "postinstall": "npm run db:generate",
     "studio": "npm run dev"
   },

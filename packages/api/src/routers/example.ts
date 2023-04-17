@@ -1,29 +1,12 @@
-import { TRPCError } from "@trpc/server";
-import { z } from "zod";
-import { adminProcedure, createRouter, publicProcedure } from "../trpc";
+import { userService } from "../services/user.service";
+import { adminProcedure, createRouter } from "../trpc";
 
 export const exampleRouter = createRouter({
-  test: publicProcedure.query(() => {
-    return {
-      message: "Hello World!",
-    };
+  getName: adminProcedure.query(({ ctx }) => ({
+    name: ctx.user.name,
+  })),
+
+  invalidateUser: adminProcedure.mutation(async ({ ctx }) => {
+    await userService.invalidateUserCache(ctx.auth.userId as string); // userId is always defined since this is a protected route
   }),
-
-  checkNumber: adminProcedure
-    .input(
-      z.object({
-        number: z.number(),
-      }),
-    )
-    .mutation(({ input }) => {
-      if (input.number !== 1)
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: "Number must be 1",
-        });
-
-      return {
-        message: "Hello World!",
-      };
-    }),
 });
