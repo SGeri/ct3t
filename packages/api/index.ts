@@ -6,6 +6,9 @@ export { appRouter, type AppRouter } from "./src/root";
 export { createTRPCContext } from "./src/context";
 export type { Context } from "./src/context";
 
+// Export UserService to be used in utils/auth.ts
+export { userService } from "./src/services/user.service";
+
 /**
  * Inference helpers for input types
  * @example type HelloInput = RouterInputs['example']['hello']

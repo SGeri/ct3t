@@ -41,7 +41,7 @@ export const api = createTRPCNext<AppRouter>({
     };
   },
 
-  ssr: false, // todo - enable this
+  ssr: false,
 });
 
 export { type RouterInputs, type RouterOutputs } from "@packages/api";

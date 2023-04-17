@@ -4,7 +4,8 @@ import type {
   NextPage,
 } from "next";
 import { buildClerkProps, getAuth } from "@clerk/nextjs/server";
-import { prisma, type Role, type User } from "@packages/db";
+import { userService } from "@packages/api";
+import { type Role, type User } from "@packages/db";
 
 export type ProtectedPage = NextPage<{ user: User }>;
 
@@ -26,9 +27,7 @@ export const requireAuth = (
 
     if (!userId) return redirect(ctx);
 
-    const user = await prisma.user.findUnique({
-      where: { clerk_id: userId },
-    });
+    const user = await userService.getUserByClerkId(userId);
 
     if (!user) return redirect(ctx);
 

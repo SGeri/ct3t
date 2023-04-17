@@ -1,6 +1,8 @@
 import { prisma, redis, type User } from "@packages/db";
 import type { getUserInput } from "./user.types";
 
+const isProd = process.env.NODE_ENV === "production";
+
 class UserService {
   redis = redis;
   prisma = prisma;
@@ -14,7 +16,11 @@ class UserService {
 
   // Cached user will be reutrned, otherwise it will be fetched from the database
   async getUserByClerkId(clerkId: string) {
-    const cachedUser: User | null = await this.redis.get(clerkId);
+    // disable user caching in dev
+    const cachedUser: User | null = isProd
+      ? await this.redis.get(clerkId)
+      : null;
+
     if (cachedUser) return cachedUser;
 
     const user = await this.getUser({ clerk_id: clerkId });
