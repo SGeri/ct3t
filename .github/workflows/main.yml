@@ -9,19 +9,20 @@ on:
       - main
 
 env:
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
   CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
   SRH_TOKEN: example-token
-
-  VPS_HOST: ${{ secrets.VPS_HOST }}
-  VPS_USERNAME: ${{ secrets.VPS_USERNAME }}
-  VPS_SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
 
 jobs:
   build:
     name: Lint and Build
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
     # Remote Caching
     env:
@@ -87,19 +88,15 @@ jobs:
           UPSTASH_REDIS_REST_URL: http://srh:80
           UPSTASH_REDIS_REST_TOKEN: ${{ env.SRH_TOKEN }}
 
-      # Turned off for now, as we are using Cloud Providers with Terraform
+      # If everything is successful, deploy to Vercel
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
 
-      # Deploy to VPS with Docker
-      # - name: Deploy to VPS
-      #   uses: appleboy/ssh-action@v0.1.8
-      #   if: "!contains(github.event.head_commit.message, '[skip ci]')"
-      #   with:
-      #     host: ${{ env.VPS_HOST }}
-      #     username: ${{ env.VPS_USERNAME }}
-      #     key: ${{ env.VPS_SSH_PRIVATE_KEY }}
-      #     script: |
-      #       cd /var/www/t3-test
-      #       sudo docker compose -f compose/docker-compose.yaml down --remove-orphans
-      #       sudo git fetch
-      #       sudo git pull
-      #       sudo docker compose -f compose/docker-compose.yaml up -d
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ env.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ env.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ env.VERCEL_TOKEN }}

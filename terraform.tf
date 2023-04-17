@@ -41,10 +41,6 @@ provider "cloudflare" {
 resource "vercel_project" "next" {
   name      = "ct3t-next"
   framework = "nextjs"
-  git_repository = {
-    type = "github"
-    repo = "SGeri/ct3t"
-  }
 
   root_directory = "apps/next"
   build_command  = "cd ../.. && npm run build"
