@@ -2,23 +2,24 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:latest
+    image: mysql:latest
 
     # used to create the database credentials
     environment:
-      POSTGRES_USER: ct3t-admin
-      POSTGRES_PASSWORD: ct3t-pass
-      POSTGRES_DB: ct3t-db
-      POSTGRES_PORT: 5432
+      MYSQL_USER: ct3t-admin
+      MYSQL_PASSWORD: ct3t-pass
+      MYSQL_DATABASE: ct3t-db
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_PORT: 3306
 
     ports:
-      - "5432:5432"
+      - "3306:3306"
 
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/mysql
       # uncomment the next line to seed the database with a startup SQL script
       # also remove the persistent volume above to ensure successful seeding
-      #- ./postgres-seed.sql:/docker-entrypoint-initdb.d/init.sql
+      #- ./db-seed.sql:/docker-entrypoint-initdb.d/init.sql
 
   redis:
     image: redis:latest
@@ -36,6 +37,9 @@ services:
       SRH_MODE: env
       SRH_TOKEN: ct3t-srh-token
       SRH_CONNECTION_STRING: "redis://redis:6379"
+
+    depends_on:
+      - redis
 
 volumes:
   db_data:

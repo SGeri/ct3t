@@ -2,7 +2,7 @@
 
 ## Introduction
 
-In this guide, you will learn how to self-host your T3 app on a Custom VPS. We will use Oracle's Free Tier Linux to host our NextJS application with nginx and a PostgreSQL database. Related tech stack: Docker with Docker Compose, Github Actions as CI/CD Provider and Github Secrets for environment variables.
+In this guide, you will learn how to self-host your T3 app on a Custom VPS. We will use Oracle's Free Tier Linux to host our NextJS application with nginx and a MySQL database. Related tech stack: Docker with Docker Compose, Github Actions as CI/CD Provider and Github Secrets for environment variables.
 
 This guide will cover the following topics:
 

@@ -6,7 +6,7 @@ services:
       context: ../.
       dockerfile: Dockerfile
       args:
-        - DATABASE_URL=postgres://ct3t-admin:ct3t-pass@db:5432/ct3t-db
+        - DATABASE_URL=mysql://ct3t-admin:ct3t-pass@db:3306/ct3t-db
         - UPSTASH_REDIS_REST_URL=http://localhost:8079
         - UPSTASH_REDIS_REST_TOKEN=ct3t-srh-token
 
@@ -25,16 +25,17 @@ services:
       - serverless-redis-http
 
   db:
-    image: postgres:latest
+    image: mysql:latest
 
     environment:
-      POSTGRES_USER: ct3t-admin
-      POSTGRES_PASSWORD: ct3t-pass
-      POSTGRES_DB: ct3t-db
-      POSTGRES_PORT: 5432
+      MYSQL_USER: ct3t-admin
+      MYSQL_PASSWORD: ct3t-pass
+      MYSQL_DATABASE: ct3t-db
+      MYSQL_ROOT_PASSWORD: root-password
+      MYSQL_PORT: 3306
 
     ports:
-      - "5432:5432"
+      - "3306:3306"
 
   cache:
     image: redis:latest

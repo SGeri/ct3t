@@ -166,7 +166,7 @@ we simply require the connection string to be passed as an environment variable.
 
 ### Best practices for your infrastructure
 
-- Use the `compose/docker-compose.dev.yaml` file to run the development environment locally with persistent database data or use the `compose/postgres-seed.sql`
+- Use the `compose/docker-compose.dev.yaml` file to run the development environment locally with persistent database data or use the `compose/db-seed.sql`
   to seed the database with some data so the same sample data will be available in every development session.
 
 - Use the terraform configuration (`terraform.tf`) to create the production resources and use Vercel's CI/CD system to deploy the web app.
