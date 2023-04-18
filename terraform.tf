@@ -45,11 +45,19 @@ resource "vercel_project" "next" {
   root_directory = "apps/next"
   build_command  = "cd ../.. && npm run build"
 
+  // Should move each environment variable to separate resource
+  // Because this way changes make this resource be recreated
+  // And that generates new orgId and projId for the Vercel project
   environment = [
     {
       key    = "DATABASE_URL"
-      value  = var.PLANETSCALE_DB_URL
-      target = ["development", "preview", "production"]
+      value  = var.PLANETSCALE_DB_URL_PRODUCTION
+      target = ["production"]
+    },
+    {
+      key    = "DATABASE_URL"
+      value  = var.PLANETSCALE_DB_URL_PREVIEW
+      target = ["development", "preview"]
     },
     {
       key    = "UPSTASH_REDIS_REST_URL"
@@ -109,7 +117,8 @@ variable "CLOUDFLARE_EMAIL" {}
 variable "CLOUDFLARE_ZONE_ID" {}
 variable "UPSTASH_EMAIL" {}
 variable "UPSTASH_API_KEY" {}
-variable "PLANETSCALE_DB_URL" {}
+variable "PLANETSCALE_DB_URL_PRODUCTION" {}
+variable "PLANETSCALE_DB_URL_PREVIEW" {}
 variable "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" {}
 variable "CLERK_SECRET_KEY" {}
 
