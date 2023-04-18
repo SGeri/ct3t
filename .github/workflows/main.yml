@@ -121,7 +121,7 @@ jobs:
           UPSTASH_REDIS_REST_TOKEN: ${{ env.SRH_TOKEN }}
 
   deploy:
-    needs:
+    needs: build
     name: Deploy to Vercel
     timeout-minutes: 15
     runs-on: ubuntu-latest
