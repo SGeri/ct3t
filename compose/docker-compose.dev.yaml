@@ -41,5 +41,15 @@ services:
     depends_on:
       - redis
 
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+    volumes:
+      - s3_data:/tmp/localstack/data
+
 volumes:
   db_data:
+  s3_data:

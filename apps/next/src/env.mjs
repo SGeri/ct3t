@@ -6,6 +6,9 @@ const server = z.object({
   UPSTASH_REDIS_REST_TOKEN: z.string().min(1),
   CLERK_SECRET_KEY: z.string().min(1),
   NODE_ENV: z.enum(["development", "test", "production"]),
+  SERVER_AWS_ACCESS_KEY: z.string().min(1),
+  SERVER_AWS_SECRET_KEY: z.string().min(1),
+  AWS_S3_BUCKET: z.string().min(1),
 });
 
 /**
@@ -30,6 +33,9 @@ const processEnv = {
     process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
   CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
   NODE_ENV: process.env.NODE_ENV,
+  SERVER_AWS_ACCESS_KEY: process.env.SERVER_AWS_ACCESS_KEY,
+  SERVER_AWS_SECRET_KEY: process.env.SERVER_AWS_SECRET_KEY,
+  AWS_S3_BUCKET: process.env.AWS_S3_BUCKET,
 };
 
 // Environment variable validation

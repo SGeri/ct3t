@@ -9,16 +9,146 @@ datasource db {
   relationMode = "prisma"
 }
 
+// The Problem
+// I want to store tons of data about each user.
+// In the client I want it to be structured so that the some fields are grouped together
+
+// JSON Example
+// {
+//   "id": "ck8q2q2x0000b0a99x0x0x0x0",
+//   "clerk_id": "123456789",
+//   "personal": {
+//     "title": "Mr",
+//     "firstName": "John",
+//     "middleName": "Doe",
+//     "lastName": "Smith",
+//     "birthDate": "1990-01-01",
+//     "birthPlace": "London",
+//     "birthCountry": "UK",
+//     "citizenship": ["UK", "US"],
+//     "motherName": "Jane Doe",
+//     "gender": "Male",
+//   },
+//   "contact": {
+//     "email": "test@email.com"
+//     "phone": "+36203414426",
+//   },
+//   "employment": {
+//     "legalRelationshipType": "FULLTIME",
+//     "contractType": "FIXED_TERM",
+//   },
+//   "role": "ADMIN",
+//   "documents": [
+//     {
+//       "id": "ck8q2q2x0000b0a99x0x0x0x0",
+//       "hash": "123456789",
+//       "description": "Passport",
+//       "owner": "ck8q2q2x0000b0a99x0x0x0x0",
+//       "type": "DOCUMENT",
+//       "uploadedAt": "2020-01-01",
+//       "expireAt": "2025-01-01",
+//     }
+//   ]
+// }
+// The Problem is that if I make personal, contact, employment as seprate models
+// as a 1:1 relation to User, the these models have to be optional so typescript
+// would act as if they are optional, but in reality they are always there.
+
+// Solution 1:
+// Put every field in User model, but this is not scalable and not readable
+
+// Solution 2:
+// Make personal, contact, employment simple JSON fields
+// But then I can't use the power of Prisma and we lose typesafety
+
+// Solutions 3:
+// Put every field in User model and on the client side we create transforming funtions and types
+// so on the client side it looks like the JSON example
+// But this is also not scalable and there is a lot of boilerplate code
+// and we the lose the original typesafety of Prisma
+
+// Solution 4:
+// Make personal, contact, employment as separate models and make them required
+// by overwriting the generated prisma types on the server with typescript utility functions.
+
+// The Final Solution
+
 model User {
-  id       String  @id @default(cuid())
-  clerk_id String  @unique
-  email    String  @unique
-  role     Role    @default(EMPLOYEE)
-  name     String?
+  id         String       @id @unique @default(cuid())
+  clerk_id   String       @unique
+  personal   UserPersonal @relation(fields: [personalId], references: [id])
+  contact    UserContact  @relation(fields: [contactId], references: [id])
+  legal      UserLegal    @relation(fields: [legalId], references: [id])
+  personalId String       @unique
+  contactId  String       @unique
+  legalId    String       @unique
+  role       Role
+  documents  Document[]
+}
+
+model UserPersonal {
+  id           String   @id @unique @default(cuid())
+  title        String?
+  firstName    String
+  middleName   String?
+  lastName     String
+  birthDate    DateTime
+  birthPlace   String
+  birthCountry String
+  citizenship  String
+  motherName   String
+  gender       Gender
+  User         User?
+}
+
+model UserContact {
+  id    String @id @unique @default(cuid())
+  email String @unique
+  phone String @unique
+  User  User?
+}
+
+model UserLegal {
+  id                    String                @id @unique @default(cuid())
+  legalRelationshipType LegalRelationshipType
+  contractType          ContractType
+  User                  User?
+}
+
+model Document {
+  id          String       @id @unique @default(cuid())
+  hash        String       @unique
+  description String?
+  owner       User         @relation(fields: [ownerId], references: [id])
+  ownerId     String       @unique
+  type        DocumentType
+  uploadedAt  DateTime     @default(now())
+  expireAt    DateTime?
 }
 
 enum Role {
-  EMPLOYEE
-  MANAGER
   ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum Gender {
+  Male
+  Female
+  Other
+}
+
+enum DocumentType {
+  IMAGE
+  DOCUMENT
+}
+
+enum LegalRelationshipType {
+  FULLTIME
+  PARTTIME
+}
+
+enum ContractType {
+  FIXED_TERM
+  INDEFINITE_TERM
 }

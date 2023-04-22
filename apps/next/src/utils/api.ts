@@ -32,9 +32,11 @@ export const api = createTRPCNext<AppRouter>({
           queries: {
             refetchOnWindowFocus: false,
             onError: handleAPIError,
+            retry: false,
           },
           mutations: {
             onError: handleAPIError,
+            retry: false,
           },
         },
       },

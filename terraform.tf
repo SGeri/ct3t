@@ -20,6 +20,10 @@ terraform {
       source  = "cloudflare/cloudflare"
       version = "4.3.0"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "4.64.0"
+    }
   }
 }
 
@@ -35,6 +39,12 @@ provider "upstash" {
 
 provider "cloudflare" {
   api_token = var.CLOUDFLARE_API_TOKEN
+}
+
+provider "aws" {
+  region     = local.REGION
+  access_key = var.AWS_ACCESS_KEY
+  secret_key = var.AWS_SECRET_KEY
 }
 
 /* --- RESOURCES --- */
@@ -79,6 +89,26 @@ resource "vercel_project" "next" {
       value  = var.CLERK_SECRET_KEY
       target = ["development", "preview", "production"]
     },
+    {
+      key    = "SERVER_AWS_ACCESS_KEY"
+      value  = var.AWS_ACCESS_KEY
+      target = ["development", "preview", "production"]
+    },
+    {
+      key    = "SERVER_AWS_SECRET_KEY"
+      value  = var.AWS_SECRET_KEY
+      target = ["development", "preview", "production"]
+    },
+    {
+      key    = "AWS_S3_BUCKET"
+      value  = aws_s3_bucket.s3_bucket_production.bucket
+      target = ["production"]
+    },
+    {
+      key    = "AWS_S3_BUCKET"
+      value  = aws_s3_bucket.s3_bucket_preview.bucket
+      target = ["development", "preview"]
+    }
   ]
 }
 
@@ -97,8 +127,16 @@ resource "cloudflare_record" "record" {
 
 resource "upstash_redis_database" "redis" {
   database_name = "ct3t-redis"
-  region        = "eu-central-1"
+  region        = local.REGION
   tls           = "true"
+}
+
+resource "aws_s3_bucket" "s3_bucket_production" {
+  bucket = "ct3t-production"
+}
+
+resource "aws_s3_bucket" "s3_bucket_preview" {
+  bucket = "ct3t-preview"
 }
 
 /* --- DATA SOURCES --- */
@@ -117,6 +155,8 @@ variable "CLOUDFLARE_EMAIL" {}
 variable "CLOUDFLARE_ZONE_ID" {}
 variable "UPSTASH_EMAIL" {}
 variable "UPSTASH_API_KEY" {}
+variable "AWS_ACCESS_KEY" {}
+variable "AWS_SECRET_KEY" {}
 variable "PLANETSCALE_DB_URL_PRODUCTION" {}
 variable "PLANETSCALE_DB_URL_PREVIEW" {}
 variable "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" {}
@@ -124,6 +164,7 @@ variable "CLERK_SECRET_KEY" {}
 
 /* --- LOCAL VARIABLES --- */
 locals {
+  REGION    = "eu-central-1"
   SUBDOMAIN = "ct3t"
   DOMAIN    = "sarffy.dev"
   URL       = "${local.SUBDOMAIN}.${local.DOMAIN}"

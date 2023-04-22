@@ -1,0 +1,25 @@
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "rhel-openssl-1.0.x"]
+  previewFeatures = ["jsonProtocol"]
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id       String  @id @default(cuid())
+  clerk_id String  @unique
+  email    String  @unique
+  role     Role    @default(EMPLOYEE)
+  name     String?
+}
+
+enum Role {
+  EMPLOYEE
+  MANAGER
+  ADMIN
+}
