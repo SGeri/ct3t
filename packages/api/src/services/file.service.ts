@@ -4,6 +4,7 @@ import {
   redis,
   type DocumentType as DBDocumentType,
 } from "@packages/db";
+import fixedLengthBase64 from "../utils/fixedLengthBase64";
 import {
   DocumentType,
   ImageType,
@@ -12,19 +13,12 @@ import {
   type ContentType,
 } from "./file.types";
 
-const isProd = process.env.NODE_ENV === "production";
-
-const S3 = isProd
-  ? new S3Client({
-      region: "eu-central-1",
-      accessKeyId: process.env.SERVER_AWS_ACCESS_KEY,
-      secretAccessKey: process.env.SERVER_AWS_SECRET_KEY,
-    })
-  : new S3Client({
-      accessKeyId: "access-key",
-      secretAccessKey: "secret-key",
-      endpoint: "http://localhost:4566",
-    });
+const S3 = new S3Client({
+  region: "eu-central-1",
+  accessKeyId: process.env.SERVER_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.SERVER_AWS_SECRET_KEY,
+  endpoint: process.env.LOCAL_AWS_S3_ENDPOINT ?? undefined,
+});
 
 class FileService {
   readonly redis = redis;
@@ -36,20 +30,27 @@ class FileService {
     contentType: ContentType,
     expirationInSeconds: number,
   ) {
-    return new Promise((resolve: (value: string) => void, reject) => {
-      const params = {
-        Bucket: process.env.AWS_S3_BUCKET,
-        Key: key,
-        ContentType: contentType,
-        Expires: expirationInSeconds,
-      };
+    return new Promise(
+      (
+        resolve: (value: { url: string; objectKey: string }) => void,
+        reject,
+      ) => {
+        const objectKey = fixedLengthBase64(`${key}-${Date.now()}`, 20);
 
-      this.s3.getSignedUrl("putObject", params, (err, url) => {
-        if (err) return reject(err);
+        const params = {
+          Bucket: process.env.AWS_S3_BUCKET,
+          Key: objectKey,
+          ContentType: contentType,
+          Expires: expirationInSeconds,
+        };
 
-        resolve(url);
-      });
-    });
+        this.s3.getSignedUrl("putObject", params, (err, url) => {
+          if (err) return reject(err);
+
+          resolve({ url, objectKey });
+        });
+      },
+    );
   }
 
   getFileType(file: string): DBDocumentType {

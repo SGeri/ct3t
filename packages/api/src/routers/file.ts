@@ -9,24 +9,25 @@ export const fileRouter = createRouter({
     .input(
       zod.object({
         userId: zod.string(),
-        objectKey: zod.string(),
+        fileName: zod.string(),
         contentType: zod.enum(contentTypes),
       }),
     )
-    .mutation(async ({ ctx, input: { objectKey, contentType, userId } }) => {
+    .mutation(async ({ ctx, input: { fileName, contentType, userId } }) => {
       try {
-        const presignedUrl = await fileService.createPresignedUrl(
-          objectKey,
-          contentType,
-          20,
-        );
+        const { url: presignedUrl, objectKey } =
+          await fileService.createPresignedUrl(fileName, contentType, 20);
 
         const type = fileService.getFileType(contentType);
 
         const document = await ctx.prisma.document.create({
           data: {
             hash: objectKey,
-            ownerId: ctx.user.id,
+            owner: {
+              connect: {
+                id: userId,
+              },
+            },
             type,
           },
         });
@@ -47,15 +48,11 @@ export const fileRouter = createRouter({
           },
         });
 
-        return {
-          key: objectKey,
-          presignedUrl,
-        };
+        return { key: objectKey, presignedUrl };
       } catch (error) {
-        console.log(error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Something went wrong",
+          message: "Something went wrong: " + error,
         });
       }
     }),

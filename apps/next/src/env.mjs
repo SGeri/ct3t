@@ -9,6 +9,7 @@ const server = z.object({
   SERVER_AWS_ACCESS_KEY: z.string().min(1),
   SERVER_AWS_SECRET_KEY: z.string().min(1),
   AWS_S3_BUCKET: z.string().min(1),
+  LOCAL_AWS_S3_ENDPOINT: z.string().min(1).optional(),
 });
 
 /**
@@ -36,6 +37,7 @@ const processEnv = {
   SERVER_AWS_ACCESS_KEY: process.env.SERVER_AWS_ACCESS_KEY,
   SERVER_AWS_SECRET_KEY: process.env.SERVER_AWS_SECRET_KEY,
   AWS_S3_BUCKET: process.env.AWS_S3_BUCKET,
+  LOCAL_AWS_S3_ENDPOINT: process.env.LOCAL_AWS_S3_ENDPOINT,
 };
 
 // Environment variable validation
