@@ -52,7 +52,7 @@ export const fileRouter = createRouter({
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Something went wrong: " + error,
+          message: "Something went wrong: " + String(error),
         });
       }
     }),

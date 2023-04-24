@@ -1,8 +1,8 @@
-import { ChangeEventHandler, useState } from "react";
-import { ContentType } from "@packages/api/src/services/file.types";
+import { useState, type ChangeEventHandler } from "react";
+import { type ContentType } from "@packages/api/src/services/file.types";
 import { Role } from "@packages/db";
 import { api } from "~/utils/api";
-import { ProtectedPage, requireAuth } from "~/utils/auth";
+import { requireAuth, type ProtectedPage } from "~/utils/auth";
 
 const Files: ProtectedPage = ({ user }) => {
   //const { data: files } = api.file.getFilesByUser.useQuery(user.id);

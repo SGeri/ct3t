@@ -6,11 +6,11 @@ import {
 } from "@packages/db";
 import fixedLengthBase64 from "../utils/fixedLengthBase64";
 import {
-  DocumentType,
-  ImageType,
   documentTypes,
   imageTypes,
   type ContentType,
+  type DocumentType,
+  type ImageType,
 } from "./file.types";
 
 const S3 = new S3Client({
@@ -60,7 +60,7 @@ class FileService {
     throw new Error("Invalid file type");
   }
 
-  getFileContentType() {}
+  //getFileContentType() {}
 }
 
 export const fileService = new FileService();
