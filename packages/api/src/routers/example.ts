@@ -3,7 +3,7 @@ import { adminProcedure, createRouter } from "../trpc";
 
 export const exampleRouter = createRouter({
   getName: adminProcedure.query(({ ctx }) => ({
-    name: ctx.user.id,
+    name: `${ctx.user.personal.lastName} ${ctx.user.contact.email}`,
   })),
 
   invalidateUser: adminProcedure.mutation(async ({ ctx }) => {

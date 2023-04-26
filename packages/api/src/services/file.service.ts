@@ -1,9 +1,9 @@
-import S3Client from "aws-sdk/clients/s3";
 import {
   prisma,
   redis,
   type DocumentType as DBDocumentType,
 } from "@packages/db";
+import { S3 } from "@packages/services";
 import fixedLengthBase64 from "../utils/fixedLengthBase64";
 import {
   documentTypes,
@@ -12,13 +12,6 @@ import {
   type DocumentType,
   type ImageType,
 } from "./file.types";
-
-const S3 = new S3Client({
-  region: "eu-central-1",
-  accessKeyId: process.env.SERVER_AWS_ACCESS_KEY,
-  secretAccessKey: process.env.SERVER_AWS_SECRET_KEY,
-  endpoint: process.env.LOCAL_AWS_S3_ENDPOINT ?? undefined,
-});
 
 class FileService {
   readonly redis = redis;
