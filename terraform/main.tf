@@ -101,12 +101,12 @@ resource "vercel_project" "next" {
     },
     {
       key    = "AWS_S3_BUCKET"
-      value  = aws_s3_bucket.s3_bucket_production.bucket
+      value  = aws_s3_bucket.production.bucket
       target = ["production"]
     },
     {
       key    = "AWS_S3_BUCKET"
-      value  = aws_s3_bucket.s3_bucket_preview.bucket
+      value  = aws_s3_bucket.preview.bucket
       target = ["development", "preview"]
     }
   ]
@@ -131,12 +131,36 @@ resource "upstash_redis_database" "redis" {
   tls           = "true"
 }
 
-resource "aws_s3_bucket" "s3_bucket_production" {
+resource "aws_s3_bucket" "production" {
   bucket = "ct3t-production"
 }
 
-resource "aws_s3_bucket" "s3_bucket_preview" {
+resource "aws_s3_bucket" "preview" {
   bucket = "ct3t-preview"
+}
+
+resource "aws_s3_bucket_cors_configuration" "production" {
+  bucket = aws_s3_bucket.production.id
+
+  cors_rule {
+    allowed_headers = local.BUCKET_CORS.allowed_headers
+    allowed_methods = local.BUCKET_CORS.allowed_methods
+    allowed_origins = local.BUCKET_CORS.allowed_origins
+    expose_headers  = local.BUCKET_CORS.expose_headers
+    max_age_seconds = local.BUCKET_CORS.max_age_seconds
+  }
+}
+
+resource "aws_s3_bucket_cors_configuration" "preview" {
+  bucket = aws_s3_bucket.preview.id
+
+  cors_rule {
+    allowed_headers = local.BUCKET_CORS.allowed_headers
+    allowed_methods = local.BUCKET_CORS.allowed_methods
+    allowed_origins = local.BUCKET_CORS.allowed_origins
+    expose_headers  = local.BUCKET_CORS.expose_headers
+    max_age_seconds = local.BUCKET_CORS.max_age_seconds
+  }
 }
 
 /* --- DATA SOURCES --- */
@@ -146,26 +170,4 @@ data "upstash_redis_database_data" "redis_data" {
 
 data "cloudflare_accounts" "accounts" {
   name = var.CLOUDFLARE_EMAIL
-}
-
-/* --- CONFIG VARIABLES (from env) --- */
-variable "VERCEL_API_TOKEN" {}
-variable "CLOUDFLARE_API_TOKEN" {}
-variable "CLOUDFLARE_EMAIL" {}
-variable "CLOUDFLARE_ZONE_ID" {}
-variable "UPSTASH_EMAIL" {}
-variable "UPSTASH_API_KEY" {}
-variable "AWS_ACCESS_KEY" {}
-variable "AWS_SECRET_KEY" {}
-variable "PLANETSCALE_DB_URL_PRODUCTION" {}
-variable "PLANETSCALE_DB_URL_PREVIEW" {}
-variable "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY" {}
-variable "CLERK_SECRET_KEY" {}
-
-/* --- LOCAL VARIABLES --- */
-locals {
-  REGION    = "eu-central-1"
-  SUBDOMAIN = "ct3t"
-  DOMAIN    = "sarffy.dev"
-  URL       = "${local.SUBDOMAIN}.${local.DOMAIN}"
 }

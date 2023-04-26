@@ -6,6 +6,7 @@
     "packages/api",
     "packages/auth",
     "packages/db",
+    "packages/services",
     "packages/config/eslint",
     "packages/config/tailwind"
   ],
@@ -23,10 +24,10 @@
     "lint": "dotenv -e .env -- turbo lint && manypkg check",
     "start": "dotenv -e .env -- turbo start",
     "studio": "dotenv -e .env -- turbo studio",
-    "tf:apply": "dotenv -e .env -- terraform apply",
-    "tf:destroy": "dotenv -e .env -- terraform destroy",
-    "tf:init": "dotenv -e .env -- terraform init",
-    "tf:plan": "dotenv -e .env -- terraform plan",
+    "tf:apply": "cd terraform && dotenv -e ../.env -- terraform apply",
+    "tf:destroy": "cd terraform && dotenv -e ../.env -- terraform destroy",
+    "tf:init": "cd terraform && dotenv -e ../.env -- terraform init",
+    "tf:plan": "cd terraform && dotenv -e ../.env -- terraform plan",
     "type-check": "dotenv -e .env -- turbo type-check"
   },
   "dependencies": {
