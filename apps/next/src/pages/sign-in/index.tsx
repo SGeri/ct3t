@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useSignIn } from "@clerk/nextjs";
 import { getAuth } from "@clerk/nextjs/server";
 import { type ClerkAPIError } from "@clerk/types";
+import { Loader } from "@mantine/core";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -14,14 +15,20 @@ const SignInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [loading, setLoading] = useState(false);
+
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [clerkError, setClerkError] = useState("");
 
   const handleSignInPress = async () => {
     if (!signIn || !isLoaded) return;
 
+    setLoading(true);
+
     setEmailError("");
     setPasswordError("");
+    setClerkError("");
 
     let emailError = "";
     let passwordError = "";
@@ -55,7 +62,11 @@ const SignInPage = () => {
           ? clerkErr?.errors
           : err,
       );
+
+      setClerkError(clerkErr.errors?.[0]?.message || String(err));
     }
+
+    setLoading(false);
   };
 
   return (
@@ -82,7 +93,7 @@ const SignInPage = () => {
                   placeholder="Enter your email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <div className="mt-1 text-sm text-red-600">{emailError}</div>
+                <p className="mt-1 text-sm text-red-600">{emailError}</p>
               </div>
               <div className="relative mb-2">
                 <label
@@ -98,14 +109,19 @@ const SignInPage = () => {
                   placeholder="Enter your password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <div className="mt-1 text-sm text-red-600">{passwordError}</div>
+                <p className="mt-1 text-sm text-red-600">{passwordError}</p>
               </div>
               <button
+                type="button"
                 className="w-full rounded-lg bg-indigo-600 px-4 py-2 font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                onClick={() => handleSignInPress}
+                onClick={() => handleSignInPress()}
               >
                 Login
               </button>
+              <div className="my-2 flex justify-center">
+                {loading && <Loader />}
+                <p className="mt-1 text-sm text-red-600">{clerkError}</p>
+              </div>
             </div>
           </div>
         </div>

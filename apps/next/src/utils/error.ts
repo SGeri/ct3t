@@ -1,6 +1,9 @@
 import { notifications } from "@mantine/notifications";
 import { TRPCClientError } from "@trpc/client";
 
+// use createPortal to show notifications in the right place
+// replace mantine with portals
+
 export const handleAPIError = (err: unknown) => {
   if (err instanceof TRPCClientError) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
